@@ -249,11 +249,6 @@ namespace SMO20240904
             }
         }
 
-        private void SuperWorkspace1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void SuperWkspManager1_LClick(object sender, AxSuperWkspManagerLib._DSuperWkspManagerEvents_LClickEvent e)
         {
             switch (e.nFlag)
@@ -340,13 +335,103 @@ namespace SMO20240904
             // SuperMap1.Action = seAction.scaSelectEx;
         }
 
+        // private void SuperMap1_GeometrySelected(object sender, AxSuperMapLib._DSuperMapEvents_GeometrySelectedEvent e)
+        // {
+        //     // MessageBox.Show("You have selected the geometry object!");
+        //     soSelection mySel = SuperMap1.selection;
+        //     soRecordset myRec = mySel.ToRecordset(false);
+        //     SuperGridView1.Connect(myRec);
+        //     SuperGridView1.Update();
+        // }
+
         private void SuperMap1_GeometrySelected(object sender, AxSuperMapLib._DSuperMapEvents_GeometrySelectedEvent e)
         {
-            // MessageBox.Show("You have selected the geometry object!");
-            soSelection mySel = SuperMap1.selection;
-            soRecordset myRec = mySel.ToRecordset(false);
-            SuperGridView1.Connect(myRec);
-            SuperGridView1.Update();
+            // 检查是否处于对象跟踪模式
+            if (GeoTracking)
+            {
+                // 获取选中的几何对象
+                soSelection mySel = SuperMap1.selection;
+                soRecordset myRec = mySel.ToRecordset(false);
+                if (myRec != null && myRec.RecordCount > 0)
+                {
+                    myRec.MoveFirst();
+                    soGeometry selectedGeometry = myRec.GetGeometry();
+                    if (selectedGeometry != null)
+                    {
+                        // 根据几何类型进行处理
+                        if (selectedGeometry.Type == seGeometryType.scgLine || selectedGeometry.Type == seGeometryType.scgRegion)
+                        {
+                            // 调用跟踪方法
+                            TrackGeometry(selectedGeometry);
+                        }
+                        else
+                        {
+                            MessageBox.Show("选中的对象不是线或面类型，无法进行跟踪。");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("无法获取选中的几何对象。");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("未选中任何对象。");
+                }
+                // 重置状态
+                GeoTracking = false;
+                SuperMap1.selection.RemoveAll();
+                SuperMap1.Action = seAction.scaPan; // 重置为平移操作或其他默认操作
+            }
+            else
+            {
+                // 原有的处理逻辑
+                soSelection mySel = SuperMap1.selection;
+                soRecordset myRec = mySel.ToRecordset(false);
+                SuperGridView1.Connect(myRec);
+                SuperGridView1.Update();
+            }
+        }
+
+        private void TrackGeometry(soGeometry objGeo)
+        {
+            double dLength = 0;
+
+            if (objGeo.Type == seGeometryType.scgLine)
+            {
+                objGeoLine = (soGeoLine)objGeo;
+            }
+            else if (objGeo.Type == seGeometryType.scgRegion)
+            {
+                objGeoRegion = (soGeoRegion)objGeo;
+                objGeoLine = objGeoRegion.ConvertToLine();
+            }
+            else
+            {
+                MessageBox.Show("无法处理的几何类型。");
+                return;
+            }
+            if (objGeoLine != null)
+            {
+                dLength = objGeoLine.Length;
+                objNewLine = objGeoLine.ResampleEquidistantly(dLength / 60);
+
+                if (objNewLine != null)
+                {
+                    objTrackPoints = objNewLine.GetPartAt(1);
+                    CurrentPoint = 1;
+                    timer1.Interval = 500;
+                    timer1.Start();
+                }
+                else
+                {
+                    MessageBox.Show("重采样失败，无法生成新线对象。");
+                }
+            }
+            else
+            {
+                MessageBox.Show("无法获取线对象进行跟踪。");
+            }
         }
 
         private void SuperGridView1_ItemSelected(object sender, AxSuperGridViewLib._DSuperGridViewEvents_ItemSelectedEvent e)
@@ -418,8 +503,6 @@ namespace SMO20240904
                 MessageBox.Show("查询过程中发生错误: " + ex.Message, "错误提示");
             }
         }
-
-
 
         // 获取用户选择的图层
         private soLayer GetSelectedLayer()
@@ -688,11 +771,6 @@ namespace SMO20240904
             }
         }
 
-        private void menuopenFileDS1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void menuopenFileDS_Click_1(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "sdb文件|*.sdb|所有文件类型|*.*";
@@ -750,7 +828,6 @@ namespace SMO20240904
                 MessageBox.Show("请选择一个数据源。");
                 return;
             }
-
             // 获取当前数据源
             var datasource = SuperWorkspace1.Datasources[selectedDSName];
             if (datasource == null)
@@ -758,7 +835,6 @@ namespace SMO20240904
                 MessageBox.Show("无法获取所选数据源。");
                 return;
             }
-
             // 自动生成数据集名称
             int index = 1;
             string datasetName;
@@ -771,7 +847,6 @@ namespace SMO20240904
                 }
                 index++;
             }
-
             // 创建数据集
             soDataset newDataset = datasource.CreateDataset(datasetName, datasetType, seDatasetOption.scoDefault);
             if (newDataset != null)
@@ -844,16 +919,13 @@ namespace SMO20240904
                     MessageBox.Show("无法获取跟踪的几何对象。");
                     return;
                 }
-
                 // 克隆几何对象
                 soGeometry clonedGeometry = curGeometry.Clone();
-
                 // 初始化样式
                 soStyle objStyle = new soStyle();
                 objStyle.PenColor = (uint)ColorTranslator.ToOle(Color.AliceBlue);
                 objStyle.SymbolSize = 500;
                 objStyle.SymbolStyle = 1;
-
                 // 获取跟踪图层
                 soTrackingLayer objTracklayer = SuperMap1.TrackingLayer;
                 if (objTracklayer == null)
@@ -861,7 +933,6 @@ namespace SMO20240904
                     MessageBox.Show("无法获取跟踪图层。");
                     return;
                 }
-
                 // 添加事件到跟踪图层
                 objTracklayer.AddEvent(clonedGeometry, objStyle, "Point1");
                 objTracklayer.Refresh();
@@ -871,12 +942,10 @@ namespace SMO20240904
             {
                 double dLength = 0;
                 soGeometry objGeo = SuperMap1.TrackedGeometry;
-
                 if (objGeo.Type == seGeometryType.scgLine)
                 {
                     objGeoLine = (soGeoLine)objGeo;
                 }
-
                 else if (objGeo.Type == seGeometryType.scgRegion)
                 {
                     objGeoRegion = (soGeoRegion)objGeo;
@@ -884,7 +953,6 @@ namespace SMO20240904
                 }
                 dLength = objGeoLine.Length;
                 objNewLine = objGeoLine.ResampleEquidistantly(dLength / 60);
-
                 if (objNewLine != null)
                 {
                     objTrackPoints = objNewLine.GetPartAt(1);
@@ -1004,6 +1072,49 @@ namespace SMO20240904
             QueryByMap = false;
             SuperMap1.TrackingLayer.ClearEvents();
             SuperMap1.TrackingLayer.Refresh();
+            SuperMap1.Action = seAction.scaSelect;
+        }
+
+        public void menuSLineTrack_Click(object sender, EventArgs e)
+        {
+            // 获取图层名称列表
+            List<string> layerNames = new List<string>();
+            int layersCount = SuperMap1.Layers.Count;
+            for (int i = 1; i <= layersCount; i++)
+            {
+                string layerName = SuperMap1.Layers[i].Name;
+                layerNames.Add(layerName);
+            }
+
+            // 创建并显示 FormChooseTrack 窗体，传递图层列表和图层对象
+            FormChooseTrack form = new FormChooseTrack(layerNames, SuperMap1.Layers);
+            form.TrackChosen += Form_TrackChosen; // 订阅事件
+            form.Show(); // 如果希望以模态方式显示，则使用 ShowDialog()
+        }
+
+        public void Form_TrackChosen(object sender, TrackEventArgs e)
+        {
+            // 获取选中的起点和终点的坐标
+            double startX = e.StartX;
+            double startY = e.StartY;
+            double endX = e.EndX;
+            double endY = e.EndY;
+
+            // 根据起点和终点生成线对象
+            soGeoLine line = new soGeoLine();
+            soPoints points = new soPoints();
+            points.Add(new soPoint { x = startX, y = startY });
+            points.Add(new soPoint { x = endX, y = endY });
+            line.AddPart(points); // 使用 AddPart 方法
+
+            // 将线对象添加到跟踪图层
+            soStyle style = new soStyle();
+            style.PenColor = (uint)ColorTranslator.ToOle(Color.Blue);
+            SuperMap1.TrackingLayer.AddEvent((soGeometry)line, style, "TrackLine");
+            SuperMap1.TrackingLayer.Refresh();
+
+            // 执行类似于 menuTrackBySelectGeo 的操作
+            GeoTracking = true;
             SuperMap1.Action = seAction.scaSelect;
         }
     }
