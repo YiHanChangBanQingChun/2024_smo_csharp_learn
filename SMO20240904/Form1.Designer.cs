@@ -61,6 +61,9 @@ namespace SMO20240904
             this.btnCreatePointDataset = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCreateLineDataset = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCreatePolygonDataset = new System.Windows.Forms.ToolStripMenuItem();
+            this.跟踪图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddGeoevent = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuMoveGeoevent = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnZoomin = new System.Windows.Forms.ToolStripButton();
             this.btnZoomOut = new System.Windows.Forms.ToolStripButton();
@@ -94,11 +97,14 @@ namespace SMO20240904
             this.SuperGridView1 = new AxSuperGridViewLib.AxSuperGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.跟踪图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuAddGeoevent = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuMoveGeoevent = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.对象跟踪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTrackByPolyLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTrackByPolygon = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTrackBySelectGeo = new System.Windows.Forms.ToolStripMenuItem();
+            this.对象闪烁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.停止动画ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -290,7 +296,7 @@ namespace SMO20240904
             this.CreateLineMenu,
             this.CreatePolygonMenu});
             this.menuCreateGeometry.Name = "menuCreateGeometry";
-            this.menuCreateGeometry.Size = new System.Drawing.Size(152, 22);
+            this.menuCreateGeometry.Size = new System.Drawing.Size(136, 22);
             this.menuCreateGeometry.Text = "绘制...";
             this.menuCreateGeometry.Click += new System.EventHandler(this.menuCreateGeometry_Click);
             // 
@@ -318,14 +324,14 @@ namespace SMO20240904
             // menuDeleteDst
             // 
             this.menuDeleteDst.Name = "menuDeleteDst";
-            this.menuDeleteDst.Size = new System.Drawing.Size(152, 22);
+            this.menuDeleteDst.Size = new System.Drawing.Size(136, 22);
             this.menuDeleteDst.Text = "删除";
             this.menuDeleteDst.Click += new System.EventHandler(this.menuDeleteDst_Click);
             // 
             // menuPasteDst
             // 
             this.menuPasteDst.Name = "menuPasteDst";
-            this.menuPasteDst.Size = new System.Drawing.Size(152, 22);
+            this.menuPasteDst.Size = new System.Drawing.Size(136, 22);
             this.menuPasteDst.Text = "复制";
             this.menuPasteDst.Click += new System.EventHandler(this.menuPasteDst_Click);
             // 
@@ -336,7 +342,7 @@ namespace SMO20240904
             this.btnCreateLineDataset,
             this.btnCreatePolygonDataset});
             this.menuCreateDst.Name = "menuCreateDst";
-            this.menuCreateDst.Size = new System.Drawing.Size(152, 22);
+            this.menuCreateDst.Size = new System.Drawing.Size(136, 22);
             this.menuCreateDst.Text = "新建数据集";
             // 
             // btnCreatePointDataset
@@ -359,6 +365,32 @@ namespace SMO20240904
             this.btnCreatePolygonDataset.Size = new System.Drawing.Size(124, 22);
             this.btnCreatePolygonDataset.Text = "面数据集";
             this.btnCreatePolygonDataset.Click += new System.EventHandler(this.btnCreatePolygonDataset_Click);
+            // 
+            // 跟踪图层ToolStripMenuItem
+            // 
+            this.跟踪图层ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAddGeoevent,
+            this.menuMoveGeoevent,
+            this.对象跟踪ToolStripMenuItem,
+            this.对象闪烁ToolStripMenuItem,
+            this.停止动画ToolStripMenuItem});
+            this.跟踪图层ToolStripMenuItem.Name = "跟踪图层ToolStripMenuItem";
+            this.跟踪图层ToolStripMenuItem.Size = new System.Drawing.Size(68, 22);
+            this.跟踪图层ToolStripMenuItem.Text = "跟踪图层";
+            // 
+            // menuAddGeoevent
+            // 
+            this.menuAddGeoevent.Name = "menuAddGeoevent";
+            this.menuAddGeoevent.Size = new System.Drawing.Size(152, 22);
+            this.menuAddGeoevent.Text = "添加实例";
+            this.menuAddGeoevent.Click += new System.EventHandler(this.menuAddGeoevent_Click);
+            // 
+            // menuMoveGeoevent
+            // 
+            this.menuMoveGeoevent.Name = "menuMoveGeoevent";
+            this.menuMoveGeoevent.Size = new System.Drawing.Size(152, 22);
+            this.menuMoveGeoevent.Text = "移动实例";
+            this.menuMoveGeoevent.Click += new System.EventHandler(this.menuMoveGeoevent_Click);
             // 
             // toolStrip1
             // 
@@ -496,6 +528,7 @@ namespace SMO20240904
             // 
             this.txtSQLFilter.Name = "txtSQLFilter";
             this.txtSQLFilter.Size = new System.Drawing.Size(150, 39);
+            this.txtSQLFilter.Text = "name like \"*上海*\"";
             // 
             // toolStripSeparator3
             // 
@@ -670,32 +703,52 @@ namespace SMO20240904
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // 跟踪图层ToolStripMenuItem
-            // 
-            this.跟踪图层ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuAddGeoevent,
-            this.menuMoveGeoevent});
-            this.跟踪图层ToolStripMenuItem.Name = "跟踪图层ToolStripMenuItem";
-            this.跟踪图层ToolStripMenuItem.Size = new System.Drawing.Size(68, 22);
-            this.跟踪图层ToolStripMenuItem.Text = "跟踪图层";
-            // 
-            // menuAddGeoevent
-            // 
-            this.menuAddGeoevent.Name = "menuAddGeoevent";
-            this.menuAddGeoevent.Size = new System.Drawing.Size(152, 22);
-            this.menuAddGeoevent.Text = "添加实例";
-            this.menuAddGeoevent.Click += new System.EventHandler(this.menuAddGeoevent_Click);
-            // 
-            // menuMoveGeoevent
-            // 
-            this.menuMoveGeoevent.Name = "menuMoveGeoevent";
-            this.menuMoveGeoevent.Size = new System.Drawing.Size(152, 22);
-            this.menuMoveGeoevent.Text = "移动实例";
-            this.menuMoveGeoevent.Click += new System.EventHandler(this.menuMoveGeoevent_Click);
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // 对象跟踪ToolStripMenuItem
+            // 
+            this.对象跟踪ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuTrackByPolyLine,
+            this.menuTrackByPolygon,
+            this.menuTrackBySelectGeo});
+            this.对象跟踪ToolStripMenuItem.Name = "对象跟踪ToolStripMenuItem";
+            this.对象跟踪ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.对象跟踪ToolStripMenuItem.Text = "对象跟踪";
+            // 
+            // menuTrackByPolyLine
+            // 
+            this.menuTrackByPolyLine.Name = "menuTrackByPolyLine";
+            this.menuTrackByPolyLine.Size = new System.Drawing.Size(152, 22);
+            this.menuTrackByPolyLine.Text = "画线跟踪";
+            this.menuTrackByPolyLine.Click += new System.EventHandler(this.menuTrackByPolyLine_Click);
+            // 
+            // menuTrackByPolygon
+            // 
+            this.menuTrackByPolygon.Name = "menuTrackByPolygon";
+            this.menuTrackByPolygon.Size = new System.Drawing.Size(152, 22);
+            this.menuTrackByPolygon.Text = "画面跟踪";
+            this.menuTrackByPolygon.Click += new System.EventHandler(this.menuTrackByPolygon_Click);
+            // 
+            // menuTrackBySelectGeo
+            // 
+            this.menuTrackBySelectGeo.Name = "menuTrackBySelectGeo";
+            this.menuTrackBySelectGeo.Size = new System.Drawing.Size(152, 22);
+            this.menuTrackBySelectGeo.Text = "指定对象跟踪";
+            this.menuTrackBySelectGeo.Click += new System.EventHandler(this.menuTrackBySelectGeo_Click);
+            // 
+            // 对象闪烁ToolStripMenuItem
+            // 
+            this.对象闪烁ToolStripMenuItem.Name = "对象闪烁ToolStripMenuItem";
+            this.对象闪烁ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.对象闪烁ToolStripMenuItem.Text = "对象闪烁";
+            // 
+            // 停止动画ToolStripMenuItem
+            // 
+            this.停止动画ToolStripMenuItem.Name = "停止动画ToolStripMenuItem";
+            this.停止动画ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.停止动画ToolStripMenuItem.Text = "停止动画";
             // 
             // Form1
             // 
@@ -808,6 +861,12 @@ namespace SMO20240904
         private System.Windows.Forms.ToolStripMenuItem menuMoveGeoevent;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.ToolStripMenuItem 对象跟踪ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuTrackByPolyLine;
+        private System.Windows.Forms.ToolStripMenuItem menuTrackByPolygon;
+        private System.Windows.Forms.ToolStripMenuItem menuTrackBySelectGeo;
+        private System.Windows.Forms.ToolStripMenuItem 对象闪烁ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 停止动画ToolStripMenuItem;
     }
 }
 

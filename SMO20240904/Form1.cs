@@ -18,6 +18,25 @@ namespace SMO20240904
         public static string newDstName = "";
         public static int newDstTypeIndex = -1;
         string selectedDSTName = "";
+        bool GeoTracking = false;
+        bool GeoBlink = true;
+        bool QueryByMap = true;
+        ArrayList geoList = new ArrayList();
+        bool blink = false;
+        private int queryLayerIndex = 0;
+        private seDatasetType selectedDSTType;
+        bool measurelineTool = false;
+        bool measurepolygonTool = false;
+        bool addGeoevent = false;
+        bool moveGeoEvent = false;
+        bool addGeo = true;
+        int CurrentPoint = 0;
+
+        soGeoLine objGeoLine = null;
+        soGeoRegion objGeoRegion = null;
+        soGeoLine objNewLine = null;
+        soPoints objTrackPoints = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -339,9 +358,6 @@ namespace SMO20240904
             SuperMap1.Refresh();
         }
 
-        ArrayList geoList = new ArrayList();
-        bool blink = false;
-
         private void btnSQLQuery_Click(object sender, EventArgs e)
         {
             // 获取用户选择的图层
@@ -357,36 +373,45 @@ namespace SMO20240904
             try
             {
                 // 仅在选择的图层中进行搜索
-                soDatasetVector dstv = (soDatasetVector)selectedLayer.Dataset;
+                //soDatasetVector dstv = (soDatasetVector)selectedLayer.Dataset;
+                soDatasetVector dstv = (soDatasetVector)SuperMap1.Layers[cboLayersInMap.SelectedIndex + 1].Dataset;
+
                 soRecordset resResult = dstv.Query(txtSQLFilter.Text, true);
                 SuperGridView1.Connect(resResult);
                 SuperGridView1.Update();
 
                 //SuperMap1.selection.FromRecordset(resResult);
 
+                // 模拟闪烁效果
+                geoList.Clear();
+
+                // 获取全部记录对应的几何对象
                 resResult.MoveFirst();
                 soGeometry geo1 = resResult.GetGeometry();
-                geoList.Add(geo1);
+                if (geo1 != null)
+                {
+                    geoList.Add(geo1);
+                }
+                else
+                {
+                    
+                }
                 while (resResult.MoveNext())
                 {
                     soGeometry geo = resResult.GetGeometry();
-                    geoList.Add(geo);
+                    if (geo != null)
+                    {
+                        geoList.Add(geo);
+                    }
+                    else
+                    {
+
+                    }
                 }
 
                 blink = true;
                 timer1.Start();
-                soTrackingLayer objTracklayer = SuperMap1.TrackingLayer;
-
-                for (int i = 0; i < geoList.Count; i++)
-                {
-                    soStyle objStyle = new soStyle();
-                    objStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Red);
-                    objStyle.SymbolStyle = 1;
-                    objStyle.SymbolSize = 100;
-                    objTracklayer.AddEvent((soGeometry)geoList[i], objStyle, "");
-                }
-                objTracklayer.Refresh();
-                SuperMap1.Refresh();
+                //SuperMap1.Refresh();
             }
             catch (Exception ex)
             {
@@ -686,9 +711,6 @@ namespace SMO20240904
             }
         }
 
-        private int queryLayerIndex = 0;
-        private seDatasetType selectedDSTType;
-
         private void cboLayersInMap_SelectedIndexChanged(object sender, EventArgs e)
         {
             queryLayerIndex = cboLayersInMap.SelectedIndex + 1;
@@ -763,9 +785,6 @@ namespace SMO20240904
             }
         }
 
-        bool measurelineTool = false;
-        bool measurepolygonTool = false;
-
         private void measureLengthMenu_Click(object sender, EventArgs e)
         {
             measurelineTool = true;
@@ -790,33 +809,97 @@ namespace SMO20240904
             SuperMap1.Action = seAction.scaTrackPolygon;
         }
 
-        bool addGeoevent = false;
-
         private void menuAddGeoevent_Click(object sender, EventArgs e)
         {
             addGeoevent = true;
             SuperMap1.Action = seAction.scaTrackPoint;
         }
 
+        //private void SuperMap1_Tracked(object sender, EventArgs e)
+        //{
+        //    if (addGeoevent)
+        //    {
+        //        soGeoPoint objGeoPoint = null;
+        //        soGeometry curGeometry;
+        //        soStyle objStyle = new soStyle();
+        //        soTrackingLayer objTracklayer = SuperMap1.TrackingLayer;
+        //        curGeometry = SuperMap1.TrackedGeometry;
+        //        objGeoPoint = (soGeoPoint)curGeometry;
+        //        objStyle.PenColor = (uint)ColorTranslator.ToOle(Color.AliceBlue);
+        //        objStyle.SymbolSize = 500;
+        //        objStyle.SymbolStyle = 1;
+        //        objTracklayer.AddEvent(curGeometry, objStyle, "Point1");
+        //        objTracklayer.Refresh();
+        //    }
+        //}
+
         private void SuperMap1_Tracked(object sender, EventArgs e)
         {
             if (addGeoevent)
             {
-                soGeoPoint objGeoPoint = null;
-                soGeometry curGeometry;
+                // 获取当前跟踪的几何对象
+                soGeometry curGeometry = SuperMap1.TrackedGeometry;
+                if (curGeometry == null)
+                {
+                    MessageBox.Show("无法获取跟踪的几何对象。");
+                    return;
+                }
+
+                // 克隆几何对象
+                soGeometry clonedGeometry = curGeometry.Clone();
+
+                // 初始化样式
                 soStyle objStyle = new soStyle();
-                soTrackingLayer objTracklayer = SuperMap1.TrackingLayer;
-                curGeometry = SuperMap1.TrackingGeometry;
-                objGeoPoint = (soGeoPoint)curGeometry;
                 objStyle.PenColor = (uint)ColorTranslator.ToOle(Color.AliceBlue);
-                objStyle.SymbolSize = 100;
+                objStyle.SymbolSize = 500;
                 objStyle.SymbolStyle = 1;
-                objTracklayer.AddEvent(curGeometry, objStyle, "Point1");
+
+                // 获取跟踪图层
+                soTrackingLayer objTracklayer = SuperMap1.TrackingLayer;
+                if (objTracklayer == null)
+                {
+                    MessageBox.Show("无法获取跟踪图层。");
+                    return;
+                }
+
+                // 添加事件到跟踪图层
+                objTracklayer.AddEvent(clonedGeometry, objStyle, "Point1");
                 objTracklayer.Refresh();
             }
-        }
 
-        bool moveGeoEvent = false;
+            else if (GeoTracking == true)
+            {
+                double dLength = 0;
+                soGeometry objGeo = SuperMap1.TrackedGeometry;
+
+                if (objGeo.Type == seGeometryType.scgLine)
+                {
+                    objGeoLine = (soGeoLine)objGeo;
+                }
+
+                else if (objGeo.Type == seGeometryType.scgRegion)
+                {
+                    objGeoRegion = (soGeoRegion)objGeo;
+                    objGeoLine = objGeoRegion.ConvertToLine();
+                }
+                dLength = objGeoLine.Length;
+                objNewLine = objGeoLine.ResampleEquidistantly(dLength / 60);
+
+                if (objNewLine != null)
+                {
+                    objTrackPoints = objNewLine.GetPartAt(1);
+                    CurrentPoint = 1;
+                    timer1.Interval = 500;
+                    timer1.Start();
+                }
+                else
+                {
+                    MessageBox.Show("线对象为空，重采样失败", "error");
+                    return;
+                }
+            }
+
+        }
 
         private void menuMoveGeoevent_Click(object sender, EventArgs e)
         {
@@ -827,28 +910,26 @@ namespace SMO20240904
             timer1.Start();
         }
 
-        bool addGeo = true;
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (moveGeoEvent)
             {
                 soGeoEvent objGeoEvent = SuperMap1.TrackingLayer.get_Event("Point1");
-                objGeoEvent.Move(50, 50);
+                objGeoEvent.Move(500, 500);
                 SuperMap1.TrackingLayer.RefreshEx();
             }
-            if (blink)
+            else if (blink)
             {
                 if (addGeo)
                 {
                     soTrackingLayer objTracklayer = SuperMap1.TrackingLayer;
 
-                    for (int i = 0; i <= geoList.Count; i++)
+                    for (int i = 0; i < geoList.Count; i++)
                     {
                         soStyle objStyle = new soStyle();
                         objStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Red);
                         objStyle.SymbolStyle = 1;
-                        objStyle.SymbolSize = 100;
+                        objStyle.SymbolSize = 500;
                         objTracklayer.AddEvent((soGeometry)geoList[i], objStyle, "");
                     }
                     objTracklayer.Refresh();
@@ -858,8 +939,72 @@ namespace SMO20240904
                 {
                     SuperMap1.TrackingLayer.ClearEvents();
                     SuperMap1.TrackingLayer.Refresh();
+                    addGeo = true;
                 }
             }
+            else if (GeoTracking == true)
+            {
+                if (objTrackPoints != null)
+                {
+                    if (objTrackPoints.Count > CurrentPoint)
+                    {
+                        soGeoPoint NewPoint = new soGeoPoint();
+                        soStyle TempLine = new soStyle();
+                        soStyle PointStyle = new soStyle();
+
+                        PointStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Blue);
+                        PointStyle.SymbolSize = 50;
+                        PointStyle.SymbolStyle = 14;
+                        NewPoint.x = objTrackPoints[CurrentPoint].x;
+                        NewPoint.y = objTrackPoints[CurrentPoint].y;
+
+                        SuperMap1.TrackingLayer.ClearEvents();
+                        TempLine.PenColor = (uint)ColorTranslator.ToOle(Color.Yellow);
+                        SuperMap1.TrackingLayer.AddEvent((soGeometry)objGeoLine, TempLine, "");
+
+                        SuperMap1.TrackingLayer.AddEvent((soGeometry)NewPoint, PointStyle, "");
+                        SuperMap1.TrackingLayer.Refresh();
+                        CurrentPoint++;
+
+                        //marshal.ReleaseComObject(NewPoint);
+                        NewPoint = null;
+                        //marshal.ReleaseComObject(PointStyle);
+                        PointStyle = null;
+                    }
+                    else
+                    {
+                        SuperMap1.TrackingLayer.ClearEvents();
+                        SuperMap1.TrackingLayer.Refresh();
+                        timer1.Stop();
+                    }
+                }
+            }
+        }
+
+        private void menuTrackByPolyLine_Click(object sender, EventArgs e)
+        {
+            SuperMap1.TrackingLayer.ClearEvents();
+            SuperMap1.TrackingLayer.Refresh();
+            GeoTracking = true;
+            SuperMap1.Action = seAction.scaTrackPolyline;
+        }
+
+        private void menuTrackByPolygon_Click(object sender, EventArgs e)
+        {
+            SuperMap1.TrackingLayer.ClearEvents();
+            SuperMap1.TrackingLayer.Refresh();
+            GeoTracking = true;
+            SuperMap1.Action = seAction.scaTrackPolygon;
+        }
+
+        private void menuTrackBySelectGeo_Click(object sender, EventArgs e)
+        {
+            GeoTracking = true;
+            GeoBlink = false;
+            QueryByMap = false;
+            SuperMap1.TrackingLayer.ClearEvents();
+            SuperMap1.TrackingLayer.Refresh();
+            SuperMap1.Action = seAction.scaSelect;
         }
     }
 }
