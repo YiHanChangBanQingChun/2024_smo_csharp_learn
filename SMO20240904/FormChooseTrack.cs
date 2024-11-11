@@ -131,15 +131,18 @@ namespace SMO20240904
                 }
                 recordset.Close();
             }
+            //MessageBox.Show(string.Format("坐标信息: X = {0}, Y = {1}", x, y), "坐标信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 
     public class TrackEventArgs : EventArgs
     {
-        public double StartX { get; }
-        public double StartY { get; }
-        public double EndX { get; }
-        public double EndY { get; }
+        public double StartX { get; set; }
+        public double StartY { get; set; }
+        public double EndX { get; set; }
+        public double EndY { get; set; }
+
+        public TrackEventArgs() { }
 
         public TrackEventArgs(double startX, double startY, double endX, double endY)
         {

@@ -1107,15 +1107,56 @@ namespace SMO20240904
             points.Add(new soPoint { x = endX, y = endY });
             line.AddPart(points); // 使用 AddPart 方法
 
-            // 将线对象添加到跟踪图层
-            soStyle style = new soStyle();
-            style.PenColor = (uint)ColorTranslator.ToOle(Color.Blue);
-            SuperMap1.TrackingLayer.AddEvent((soGeometry)line, style, "TrackLine");
+            // 将线对象添加到跟踪图层并设置样式
+            soStyle lineStyle = new soStyle();
+            lineStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Yellow); // 设置线的颜色为黄色
+            SuperMap1.TrackingLayer.AddEvent((soGeometry)line, lineStyle, "TrackLine");
             SuperMap1.TrackingLayer.Refresh();
 
-            // 执行类似于 menuTrackBySelectGeo 的操作
-            GeoTracking = true;
-            SuperMap1.Action = seAction.scaSelect;
+            // 分段线对象
+            double dLength = line.Length;
+            soGeoLine resampledLine = line.ResampleEquidistantly(dLength / 300);
+
+            if (resampledLine != null)
+            {
+                soPoints trackPoints = resampledLine.GetPartAt(1);
+                int currentPoint = 1;
+
+                // 设置定时器以实现点缓慢移动
+                Timer timer = new Timer();
+                timer.Interval = 100; // 设置移动间隔时间
+                timer.Tick += (s, args) =>
+                {
+                    if (trackPoints != null && trackPoints.Count > currentPoint)
+                    {
+                        soGeoPoint newPoint = new soGeoPoint();
+                        soStyle pointStyle = new soStyle();
+
+                        pointStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Red);
+                        pointStyle.SymbolSize = 50;
+                        pointStyle.SymbolStyle = 14;
+                        newPoint.x = trackPoints[currentPoint].x;
+                        newPoint.y = trackPoints[currentPoint].y;
+
+                        SuperMap1.TrackingLayer.ClearEvents();
+                        SuperMap1.TrackingLayer.AddEvent((soGeometry)line, lineStyle, "TrackLine");
+                        SuperMap1.TrackingLayer.AddEvent((soGeometry)newPoint, pointStyle, "MovingPoint");
+                        SuperMap1.TrackingLayer.Refresh();
+                        currentPoint++;
+                    }
+                    else
+                    {
+                        timer.Stop();
+                        SuperMap1.TrackingLayer.ClearEvents();
+                        SuperMap1.TrackingLayer.Refresh();
+                    }
+                };
+                timer.Start();
+            }
+            else
+            {
+                MessageBox.Show("重采样失败，无法生成新线对象。");
+            }
         }
     }
 }
