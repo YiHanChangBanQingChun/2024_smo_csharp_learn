@@ -64,7 +64,20 @@ namespace SMO20240904
             this.跟踪图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddGeoevent = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMoveGeoevent = new System.Windows.Forms.ToolStripMenuItem();
+            this.对象跟踪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTrackByPolyLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTrackByPolygon = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTrackBySelectGeo = new System.Windows.Forms.ToolStripMenuItem();
+            this.对象闪烁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.停止动画ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSLineTrack = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnZoomin = new System.Windows.Forms.ToolStripButton();
+            this.btnZoomOut = new System.Windows.Forms.ToolStripButton();
+            this.btnPan = new System.Windows.Forms.ToolStripButton();
+            this.btnViewEntire = new System.Windows.Forms.ToolStripButton();
+            this.measureLengthMenu = new System.Windows.Forms.ToolStripButton();
+            this.measureAreaMenu = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnQueryByMap = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -76,6 +89,7 @@ namespace SMO20240904
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.txtCityChoose = new System.Windows.Forms.ToolStripTextBox();
+            this.btnSQLQuery = new System.Windows.Forms.ToolStripButton();
             this.btnQueryByDistrcit = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -91,20 +105,11 @@ namespace SMO20240904
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.对象跟踪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuTrackByPolyLine = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuTrackByPolygon = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuTrackBySelectGeo = new System.Windows.Forms.ToolStripMenuItem();
-            this.对象闪烁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.停止动画ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnZoomin = new System.Windows.Forms.ToolStripButton();
-            this.btnZoomOut = new System.Windows.Forms.ToolStripButton();
-            this.btnPan = new System.Windows.Forms.ToolStripButton();
-            this.btnViewEntire = new System.Windows.Forms.ToolStripButton();
-            this.measureLengthMenu = new System.Windows.Forms.ToolStripButton();
-            this.measureAreaMenu = new System.Windows.Forms.ToolStripButton();
-            this.btnSQLQuery = new System.Windows.Forms.ToolStripButton();
-            this.menuSLineTrack = new System.Windows.Forms.ToolStripMenuItem();
+            this.工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuBufferAnalyse = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuOverlayAnalyse = new System.Windows.Forms.ToolStripMenuItem();
+            this.裁剪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -134,7 +139,8 @@ namespace SMO20240904
             this.文件FToolStripMenuItem,
             this.数据源ToolStripMenuItem,
             this.menuDataset,
-            this.跟踪图层ToolStripMenuItem});
+            this.跟踪图层ToolStripMenuItem,
+            this.工具栏ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
@@ -196,14 +202,14 @@ namespace SMO20240904
             // menuOpenSQLWKS
             // 
             this.menuOpenSQLWKS.Name = "menuOpenSQLWKS";
-            this.menuOpenSQLWKS.Size = new System.Drawing.Size(152, 22);
+            this.menuOpenSQLWKS.Size = new System.Drawing.Size(100, 22);
             this.menuOpenSQLWKS.Text = "打开";
             this.menuOpenSQLWKS.Click += new System.EventHandler(this.menuOpenSQLWKS_Click);
             // 
             // menuSaveAsSQLWKS
             // 
             this.menuSaveAsSQLWKS.Name = "menuSaveAsSQLWKS";
-            this.menuSaveAsSQLWKS.Size = new System.Drawing.Size(152, 22);
+            this.menuSaveAsSQLWKS.Size = new System.Drawing.Size(100, 22);
             this.menuSaveAsSQLWKS.Text = "另存";
             // 
             // CloseWKSmenu
@@ -238,7 +244,7 @@ namespace SMO20240904
             this.menuCreateSQLDS,
             this.menuOpenSQLDS});
             this.sQL数据源ToolStripMenuItem.Name = "sQL数据源ToolStripMenuItem";
-            this.sQL数据源ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sQL数据源ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.sQL数据源ToolStripMenuItem.Text = "SQL数据源";
             // 
             // menuCreateSQLDS
@@ -261,7 +267,7 @@ namespace SMO20240904
             this.CreateFileFSmenu,
             this.menuopenFileDS});
             this.文件型ToolStripMenuItem.Name = "文件型ToolStripMenuItem";
-            this.文件型ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.文件型ToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.文件型ToolStripMenuItem.Text = "文件型";
             // 
             // CreateFileFSmenu
@@ -296,7 +302,7 @@ namespace SMO20240904
             this.CreateLineMenu,
             this.CreatePolygonMenu});
             this.menuCreateGeometry.Name = "menuCreateGeometry";
-            this.menuCreateGeometry.Size = new System.Drawing.Size(152, 22);
+            this.menuCreateGeometry.Size = new System.Drawing.Size(136, 22);
             this.menuCreateGeometry.Text = "绘制...";
             this.menuCreateGeometry.Click += new System.EventHandler(this.menuCreateGeometry_Click);
             // 
@@ -324,14 +330,14 @@ namespace SMO20240904
             // menuDeleteDst
             // 
             this.menuDeleteDst.Name = "menuDeleteDst";
-            this.menuDeleteDst.Size = new System.Drawing.Size(152, 22);
+            this.menuDeleteDst.Size = new System.Drawing.Size(136, 22);
             this.menuDeleteDst.Text = "删除";
             this.menuDeleteDst.Click += new System.EventHandler(this.menuDeleteDst_Click);
             // 
             // menuPasteDst
             // 
             this.menuPasteDst.Name = "menuPasteDst";
-            this.menuPasteDst.Size = new System.Drawing.Size(152, 22);
+            this.menuPasteDst.Size = new System.Drawing.Size(136, 22);
             this.menuPasteDst.Text = "复制";
             this.menuPasteDst.Click += new System.EventHandler(this.menuPasteDst_Click);
             // 
@@ -342,7 +348,7 @@ namespace SMO20240904
             this.btnCreateLineDataset,
             this.btnCreatePolygonDataset});
             this.menuCreateDst.Name = "menuCreateDst";
-            this.menuCreateDst.Size = new System.Drawing.Size(152, 22);
+            this.menuCreateDst.Size = new System.Drawing.Size(136, 22);
             this.menuCreateDst.Text = "新建数据集";
             // 
             // btnCreatePointDataset
@@ -382,16 +388,66 @@ namespace SMO20240904
             // menuAddGeoevent
             // 
             this.menuAddGeoevent.Name = "menuAddGeoevent";
-            this.menuAddGeoevent.Size = new System.Drawing.Size(152, 22);
+            this.menuAddGeoevent.Size = new System.Drawing.Size(124, 22);
             this.menuAddGeoevent.Text = "添加实例";
             this.menuAddGeoevent.Click += new System.EventHandler(this.menuAddGeoevent_Click);
             // 
             // menuMoveGeoevent
             // 
             this.menuMoveGeoevent.Name = "menuMoveGeoevent";
-            this.menuMoveGeoevent.Size = new System.Drawing.Size(152, 22);
+            this.menuMoveGeoevent.Size = new System.Drawing.Size(124, 22);
             this.menuMoveGeoevent.Text = "移动实例";
             this.menuMoveGeoevent.Click += new System.EventHandler(this.menuMoveGeoevent_Click);
+            // 
+            // 对象跟踪ToolStripMenuItem
+            // 
+            this.对象跟踪ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuTrackByPolyLine,
+            this.menuTrackByPolygon,
+            this.menuTrackBySelectGeo});
+            this.对象跟踪ToolStripMenuItem.Name = "对象跟踪ToolStripMenuItem";
+            this.对象跟踪ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.对象跟踪ToolStripMenuItem.Text = "对象跟踪";
+            // 
+            // menuTrackByPolyLine
+            // 
+            this.menuTrackByPolyLine.Name = "menuTrackByPolyLine";
+            this.menuTrackByPolyLine.Size = new System.Drawing.Size(148, 22);
+            this.menuTrackByPolyLine.Text = "画线跟踪";
+            this.menuTrackByPolyLine.Click += new System.EventHandler(this.menuTrackByPolyLine_Click);
+            // 
+            // menuTrackByPolygon
+            // 
+            this.menuTrackByPolygon.Name = "menuTrackByPolygon";
+            this.menuTrackByPolygon.Size = new System.Drawing.Size(148, 22);
+            this.menuTrackByPolygon.Text = "画面跟踪";
+            this.menuTrackByPolygon.Click += new System.EventHandler(this.menuTrackByPolygon_Click);
+            // 
+            // menuTrackBySelectGeo
+            // 
+            this.menuTrackBySelectGeo.Name = "menuTrackBySelectGeo";
+            this.menuTrackBySelectGeo.Size = new System.Drawing.Size(148, 22);
+            this.menuTrackBySelectGeo.Text = "指定对象跟踪";
+            this.menuTrackBySelectGeo.Click += new System.EventHandler(this.menuTrackBySelectGeo_Click);
+            // 
+            // 对象闪烁ToolStripMenuItem
+            // 
+            this.对象闪烁ToolStripMenuItem.Name = "对象闪烁ToolStripMenuItem";
+            this.对象闪烁ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.对象闪烁ToolStripMenuItem.Text = "对象闪烁";
+            // 
+            // 停止动画ToolStripMenuItem
+            // 
+            this.停止动画ToolStripMenuItem.Name = "停止动画ToolStripMenuItem";
+            this.停止动画ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.停止动画ToolStripMenuItem.Text = "停止动画";
+            // 
+            // menuSLineTrack
+            // 
+            this.menuSLineTrack.Name = "menuSLineTrack";
+            this.menuSLineTrack.Size = new System.Drawing.Size(124, 22);
+            this.menuSLineTrack.Text = "直线跟踪";
+            this.menuSLineTrack.Click += new System.EventHandler(this.menuSLineTrack_Click);
             // 
             // toolStrip1
             // 
@@ -422,6 +478,68 @@ namespace SMO20240904
             this.toolStrip1.Size = new System.Drawing.Size(1203, 39);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // btnZoomin
+            // 
+            this.btnZoomin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnZoomin.Image = global::SMO20240904.Properties.Resources.Zoomin;
+            this.btnZoomin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnZoomin.Name = "btnZoomin";
+            this.btnZoomin.Size = new System.Drawing.Size(36, 36);
+            this.btnZoomin.Text = "toolStripButton1";
+            this.btnZoomin.ToolTipText = "放大";
+            this.btnZoomin.Click += new System.EventHandler(this.btnZoomin_Click);
+            // 
+            // btnZoomOut
+            // 
+            this.btnZoomOut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnZoomOut.Image = global::SMO20240904.Properties.Resources.Zoomout;
+            this.btnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnZoomOut.Name = "btnZoomOut";
+            this.btnZoomOut.Size = new System.Drawing.Size(36, 36);
+            this.btnZoomOut.Text = "toolStripButton2";
+            this.btnZoomOut.ToolTipText = "缩小";
+            this.btnZoomOut.Click += new System.EventHandler(this.btnZoomOut_Click);
+            // 
+            // btnPan
+            // 
+            this.btnPan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPan.Image = global::SMO20240904.Properties.Resources.Pan;
+            this.btnPan.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPan.Name = "btnPan";
+            this.btnPan.Size = new System.Drawing.Size(36, 36);
+            this.btnPan.Text = "漫游";
+            this.btnPan.Click += new System.EventHandler(this.btnPan_Click);
+            // 
+            // btnViewEntire
+            // 
+            this.btnViewEntire.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnViewEntire.Image = global::SMO20240904.Properties.Resources.Entire;
+            this.btnViewEntire.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnViewEntire.Name = "btnViewEntire";
+            this.btnViewEntire.Size = new System.Drawing.Size(36, 36);
+            this.btnViewEntire.Text = "全幅显示";
+            this.btnViewEntire.Click += new System.EventHandler(this.btnViewEntire_Click);
+            // 
+            // measureLengthMenu
+            // 
+            this.measureLengthMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.measureLengthMenu.Image = ((System.Drawing.Image)(resources.GetObject("measureLengthMenu.Image")));
+            this.measureLengthMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.measureLengthMenu.Name = "measureLengthMenu";
+            this.measureLengthMenu.Size = new System.Drawing.Size(34, 36);
+            this.measureLengthMenu.Text = "Dist";
+            this.measureLengthMenu.Click += new System.EventHandler(this.measureLengthMenu_Click);
+            // 
+            // measureAreaMenu
+            // 
+            this.measureAreaMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.measureAreaMenu.Image = ((System.Drawing.Image)(resources.GetObject("measureAreaMenu.Image")));
+            this.measureAreaMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.measureAreaMenu.Name = "measureAreaMenu";
+            this.measureAreaMenu.Size = new System.Drawing.Size(39, 36);
+            this.measureAreaMenu.Text = "Area";
+            this.measureAreaMenu.Click += new System.EventHandler(this.measureAreaMenu_Click);
             // 
             // toolStripSeparator2
             // 
@@ -484,6 +602,16 @@ namespace SMO20240904
             // 
             this.txtCityChoose.Name = "txtCityChoose";
             this.txtCityChoose.Size = new System.Drawing.Size(100, 39);
+            // 
+            // btnSQLQuery
+            // 
+            this.btnSQLQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnSQLQuery.Image = ((System.Drawing.Image)(resources.GetObject("btnSQLQuery.Image")));
+            this.btnSQLQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSQLQuery.Name = "btnSQLQuery";
+            this.btnSQLQuery.Size = new System.Drawing.Size(84, 36);
+            this.btnSQLQuery.Text = "进行属性查图";
+            this.btnSQLQuery.Click += new System.EventHandler(this.btnSQLQuery_Click);
             // 
             // btnQueryByDistrcit
             // 
@@ -635,127 +763,42 @@ namespace SMO20240904
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // 对象跟踪ToolStripMenuItem
+            // 工具栏ToolStripMenuItem
             // 
-            this.对象跟踪ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuTrackByPolyLine,
-            this.menuTrackByPolygon,
-            this.menuTrackBySelectGeo});
-            this.对象跟踪ToolStripMenuItem.Name = "对象跟踪ToolStripMenuItem";
-            this.对象跟踪ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.对象跟踪ToolStripMenuItem.Text = "对象跟踪";
+            this.工具栏ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuBufferAnalyse,
+            this.menuOverlayAnalyse});
+            this.工具栏ToolStripMenuItem.Name = "工具栏ToolStripMenuItem";
+            this.工具栏ToolStripMenuItem.Size = new System.Drawing.Size(56, 22);
+            this.工具栏ToolStripMenuItem.Text = "工具栏";
             // 
-            // menuTrackByPolyLine
+            // menuBufferAnalyse
             // 
-            this.menuTrackByPolyLine.Name = "menuTrackByPolyLine";
-            this.menuTrackByPolyLine.Size = new System.Drawing.Size(148, 22);
-            this.menuTrackByPolyLine.Text = "画线跟踪";
-            this.menuTrackByPolyLine.Click += new System.EventHandler(this.menuTrackByPolyLine_Click);
+            this.menuBufferAnalyse.Name = "menuBufferAnalyse";
+            this.menuBufferAnalyse.Size = new System.Drawing.Size(152, 22);
+            this.menuBufferAnalyse.Text = "缓冲区分析";
+            this.menuBufferAnalyse.Click += new System.EventHandler(this.menuBufferAnalyse_Click);
             // 
-            // menuTrackByPolygon
+            // menuOverlayAnalyse
             // 
-            this.menuTrackByPolygon.Name = "menuTrackByPolygon";
-            this.menuTrackByPolygon.Size = new System.Drawing.Size(148, 22);
-            this.menuTrackByPolygon.Text = "画面跟踪";
-            this.menuTrackByPolygon.Click += new System.EventHandler(this.menuTrackByPolygon_Click);
+            this.menuOverlayAnalyse.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.裁剪ToolStripMenuItem,
+            this.删除ToolStripMenuItem});
+            this.menuOverlayAnalyse.Name = "menuOverlayAnalyse";
+            this.menuOverlayAnalyse.Size = new System.Drawing.Size(152, 22);
+            this.menuOverlayAnalyse.Text = "叠加分析";
             // 
-            // menuTrackBySelectGeo
+            // 裁剪ToolStripMenuItem
             // 
-            this.menuTrackBySelectGeo.Name = "menuTrackBySelectGeo";
-            this.menuTrackBySelectGeo.Size = new System.Drawing.Size(148, 22);
-            this.menuTrackBySelectGeo.Text = "指定对象跟踪";
-            this.menuTrackBySelectGeo.Click += new System.EventHandler(this.menuTrackBySelectGeo_Click);
+            this.裁剪ToolStripMenuItem.Name = "裁剪ToolStripMenuItem";
+            this.裁剪ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.裁剪ToolStripMenuItem.Text = "裁剪";
             // 
-            // 对象闪烁ToolStripMenuItem
+            // 删除ToolStripMenuItem
             // 
-            this.对象闪烁ToolStripMenuItem.Name = "对象闪烁ToolStripMenuItem";
-            this.对象闪烁ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.对象闪烁ToolStripMenuItem.Text = "对象闪烁";
-            // 
-            // 停止动画ToolStripMenuItem
-            // 
-            this.停止动画ToolStripMenuItem.Name = "停止动画ToolStripMenuItem";
-            this.停止动画ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.停止动画ToolStripMenuItem.Text = "停止动画";
-            // 
-            // btnZoomin
-            // 
-            this.btnZoomin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnZoomin.Image = global::SMO20240904.Properties.Resources.Zoomin;
-            this.btnZoomin.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnZoomin.Name = "btnZoomin";
-            this.btnZoomin.Size = new System.Drawing.Size(36, 36);
-            this.btnZoomin.Text = "toolStripButton1";
-            this.btnZoomin.ToolTipText = "放大";
-            this.btnZoomin.Click += new System.EventHandler(this.btnZoomin_Click);
-            // 
-            // btnZoomOut
-            // 
-            this.btnZoomOut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnZoomOut.Image = global::SMO20240904.Properties.Resources.Zoomout;
-            this.btnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnZoomOut.Name = "btnZoomOut";
-            this.btnZoomOut.Size = new System.Drawing.Size(36, 36);
-            this.btnZoomOut.Text = "toolStripButton2";
-            this.btnZoomOut.ToolTipText = "缩小";
-            this.btnZoomOut.Click += new System.EventHandler(this.btnZoomOut_Click);
-            // 
-            // btnPan
-            // 
-            this.btnPan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPan.Image = global::SMO20240904.Properties.Resources.Pan;
-            this.btnPan.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPan.Name = "btnPan";
-            this.btnPan.Size = new System.Drawing.Size(36, 36);
-            this.btnPan.Text = "漫游";
-            this.btnPan.Click += new System.EventHandler(this.btnPan_Click);
-            // 
-            // btnViewEntire
-            // 
-            this.btnViewEntire.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnViewEntire.Image = global::SMO20240904.Properties.Resources.Entire;
-            this.btnViewEntire.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnViewEntire.Name = "btnViewEntire";
-            this.btnViewEntire.Size = new System.Drawing.Size(36, 36);
-            this.btnViewEntire.Text = "全幅显示";
-            this.btnViewEntire.Click += new System.EventHandler(this.btnViewEntire_Click);
-            // 
-            // measureLengthMenu
-            // 
-            this.measureLengthMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.measureLengthMenu.Image = ((System.Drawing.Image)(resources.GetObject("measureLengthMenu.Image")));
-            this.measureLengthMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.measureLengthMenu.Name = "measureLengthMenu";
-            this.measureLengthMenu.Size = new System.Drawing.Size(34, 36);
-            this.measureLengthMenu.Text = "Dist";
-            this.measureLengthMenu.Click += new System.EventHandler(this.measureLengthMenu_Click);
-            // 
-            // measureAreaMenu
-            // 
-            this.measureAreaMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.measureAreaMenu.Image = ((System.Drawing.Image)(resources.GetObject("measureAreaMenu.Image")));
-            this.measureAreaMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.measureAreaMenu.Name = "measureAreaMenu";
-            this.measureAreaMenu.Size = new System.Drawing.Size(39, 36);
-            this.measureAreaMenu.Text = "Area";
-            this.measureAreaMenu.Click += new System.EventHandler(this.measureAreaMenu_Click);
-            // 
-            // btnSQLQuery
-            // 
-            this.btnSQLQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnSQLQuery.Image = ((System.Drawing.Image)(resources.GetObject("btnSQLQuery.Image")));
-            this.btnSQLQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSQLQuery.Name = "btnSQLQuery";
-            this.btnSQLQuery.Size = new System.Drawing.Size(84, 36);
-            this.btnSQLQuery.Text = "进行属性查图";
-            this.btnSQLQuery.Click += new System.EventHandler(this.btnSQLQuery_Click);
-            // 
-            // menuSLineTrack
-            // 
-            this.menuSLineTrack.Name = "menuSLineTrack";
-            this.menuSLineTrack.Size = new System.Drawing.Size(152, 22);
-            this.menuSLineTrack.Text = "直线跟踪";
-            this.menuSLineTrack.Click += new System.EventHandler(this.menuSLineTrack_Click);
+            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.删除ToolStripMenuItem.Text = "删除";
             // 
             // Form1
             // 
@@ -874,6 +917,11 @@ namespace SMO20240904
         private System.Windows.Forms.ToolStripMenuItem 对象闪烁ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 停止动画ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuSLineTrack;
+        private System.Windows.Forms.ToolStripMenuItem 工具栏ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuBufferAnalyse;
+        private System.Windows.Forms.ToolStripMenuItem menuOverlayAnalyse;
+        private System.Windows.Forms.ToolStripMenuItem 裁剪ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
     }
 }
 

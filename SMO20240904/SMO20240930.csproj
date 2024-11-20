@@ -73,6 +73,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormBufferAnalyse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBufferAnalyse.Designer.cs">
+      <DependentUpon>FormBufferAnalyse.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormChooseTrack.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,12 @@
     </Compile>
     <Compile Include="FormCreateDst.Designer.cs">
       <DependentUpon>FormCreateDst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOverlayAnalyse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOverlayAnalyse.Designer.cs">
+      <DependentUpon>FormOverlayAnalyse.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSQLDS.cs">
       <SubType>Form</SubType>

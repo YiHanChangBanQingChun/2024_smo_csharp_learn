@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace SMO20240904
 {
@@ -1157,6 +1158,167 @@ namespace SMO20240904
             {
                 MessageBox.Show("重采样失败，无法生成新线对象。");
             }
+        }
+
+        // 基础的缓冲区实验生成，旧方法，已弃用
+        // private void menuBufferAnalyse_Click(object sender, EventArgs e)
+        // {
+        //     FormBufferAnalyse formbuffer = new FormBufferAnalyse();
+        //     formbuffer.Show();
+
+        //     soStyle objBufferStyle = new soStyleClass();
+        //     objBufferStyle.BrushStyle = 2;
+        //     objBufferStyle.BrushBackTransparent = true;
+        //     objBufferStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Green);
+        //     objBufferStyle.PenWidth = 20;
+        //     objBufferStyle.BrushColor = (uint)ColorTranslator.ToOle(Color.DarkGreen);
+        //     soTrackingLayer objTrackingLayer = SuperMap1.TrackingLayer;
+        //     soSelection objSelect = SuperMap1.selection;
+        //     soRecordset objSelectRd = objSelect.ToRecordset(true);
+        //     objSelectRd.MoveFirst();
+        //     soGeoRegion objBufferRegion = null;
+        //     objTrackingLayer.ClearEvents();
+        //     for (int _ = 1; _ <= objSelectRd.RecordCount; _ ++)
+        //     {
+        //         soGeometry objSelectGeo = objSelectRd.GetGeometry();
+        //         if(objSelectGeo.Type == seGeometryType.scgPoint)
+        //         {
+        //             soGeoPoint objGeoPoint = (soGeoPoint)objSelectGeo;
+        //             objBufferRegion = objGeoPoint.Buffer(500,50);
+        //             Marshal.ReleaseComObject(objGeoPoint);
+        //             objGeoPoint = null;
+        //         }
+        //         else if(objSelectGeo.Type == seGeometryType.scgLine)
+        //         {
+        //             soGeoLine objGeoLine = (soGeoLine)objSelectGeo;
+        //             objBufferRegion = objGeoLine.SpatialOperator.Buffer2(500,1000,50);
+        //             Marshal.ReleaseComObject(objGeoLine);
+        //             objGeoLine = null;
+        //         }
+        //         else if(objSelectGeo.Type == seGeometryType.scgRegion)
+        //         {
+        //             soGeoRegion objGeoRegion = (soGeoRegion)objSelectGeo;
+        //             objBufferRegion = objGeoRegion.Buffer(500, 50);
+        //             Marshal.ReleaseComObject(objGeoRegion);
+        //             objGeoRegion = null;
+        //         }
+
+        //         if (objBufferRegion !=null)
+        //         {
+        //             objTrackingLayer.AddEvent((soGeometry)objBufferRegion, objBufferStyle,"");
+        //             Marshal.ReleaseComObject(objBufferRegion);
+        //             objBufferRegion = null;
+        //         }
+
+        //         Marshal.FinalReleaseComObject(objSelectGeo);
+        //         objSelectGeo = null;
+        //         objSelectRd.MoveNext();
+        //     }
+
+        //     objTrackingLayer.Refresh();
+        //     Marshal.ReleaseComObject(objSelectRd);
+        //     objSelectRd = null;
+        //     Marshal.ReleaseComObject(objSelect);
+        //     objSelect = null;
+        //     Marshal.ReleaseComObject(objTrackingLayer);
+        //     objTrackingLayer = null;
+        // }
+
+        // 基础的缓冲区实验生成，新方法
+        private void menuBufferAnalyse_Click(object sender, EventArgs e)
+        {
+            FormBufferAnalyse formbuffer = new FormBufferAnalyse();
+            formbuffer.Show();
+
+            soStyle objBufferStyle = CreateBufferStyle();
+            soTrackingLayer objTrackingLayer = SuperMap1.TrackingLayer;
+            soSelection objSelect = SuperMap1.selection;
+            soRecordset objSelectRd = objSelect.ToRecordset(true);
+            objSelectRd.MoveFirst();
+            objTrackingLayer.ClearEvents();
+
+            ProcessSelectedGeometries(objSelectRd, objTrackingLayer, objBufferStyle);
+
+            objTrackingLayer.Refresh();
+            ReleaseComObjects(objSelectRd, objSelect, objTrackingLayer);
+        }
+
+        // 创建缓冲区样式
+        private soStyle CreateBufferStyle()
+        {
+            soStyle objBufferStyle = new soStyleClass();
+            objBufferStyle.BrushStyle = 2;
+            objBufferStyle.BrushBackTransparent = true;
+            objBufferStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Green);
+            objBufferStyle.PenWidth = 20;
+            objBufferStyle.BrushColor = (uint)ColorTranslator.ToOle(Color.DarkGreen);
+            return objBufferStyle;
+        }
+
+        // 处理选中的几何对象
+        private void ProcessSelectedGeometries(soRecordset objSelectRd, soTrackingLayer objTrackingLayer, soStyle objBufferStyle)
+        {
+            for (int _ = 1; _ <= objSelectRd.RecordCount; _++)
+            {
+                soGeometry objSelectGeo = objSelectRd.GetGeometry();
+                soGeoRegion objBufferRegion = CreateBufferRegion(objSelectGeo);
+
+                if (objBufferRegion != null)
+                {
+                    objTrackingLayer.AddEvent((soGeometry)objBufferRegion, objBufferStyle, "");
+                    Marshal.ReleaseComObject(objBufferRegion);
+                    objBufferRegion = null;
+                }
+
+                Marshal.FinalReleaseComObject(objSelectGeo);
+                objSelectGeo = null;
+                objSelectRd.MoveNext();
+            }
+        }
+
+        // 创建缓冲区几何对象
+        private soGeoRegion CreateBufferRegion(soGeometry objSelectGeo)
+        {
+            soGeoRegion objBufferRegion = null;
+
+            if (objSelectGeo.Type == seGeometryType.scgPoint)
+            {
+                soGeoPoint objGeoPoint = (soGeoPoint)objSelectGeo;
+                objBufferRegion = objGeoPoint.Buffer(500, 50);
+                Marshal.ReleaseComObject(objGeoPoint);
+            }
+            else if (objSelectGeo.Type == seGeometryType.scgLine)
+            {
+                soGeoLine objGeoLine = (soGeoLine)objSelectGeo;
+                objBufferRegion = objGeoLine.SpatialOperator.Buffer2(500, 1000, 50);
+                Marshal.ReleaseComObject(objGeoLine);
+            }
+            else if (objSelectGeo.Type == seGeometryType.scgRegion)
+            {
+                soGeoRegion objGeoRegion = (soGeoRegion)objSelectGeo;
+                objBufferRegion = objGeoRegion.Buffer(500, 50);
+                Marshal.ReleaseComObject(objGeoRegion);
+            }
+
+            return objBufferRegion;
+        }
+
+        // 释放 COM 对象
+        private void ReleaseComObjects(params object[] comObjects)
+        {
+            foreach (var obj in comObjects)
+            {
+                if (obj != null)
+                {
+                    Marshal.ReleaseComObject(obj);
+                }
+            }
+        }
+
+        private void menuOverlayAnalyse_Click(object sender, EventArgs e)
+        {
+            FormOverlayAnalyse formoverlay = new FormOverlayAnalyse();
+            formoverlay.Show();
         }
     }
 }
