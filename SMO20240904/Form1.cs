@@ -17,26 +17,34 @@ namespace SMO20240904
     {
         public static string selectedDSName = "";
         public static string newDstName = "";
-        public static int newDstTypeIndex = -1;
         string selectedDSTName = "";
+        string ModeType = "";
+
         bool GeoTracking = false;
-        bool GeoBlink = true;
-        bool QueryByMap = true;
-        ArrayList geoList = new ArrayList();
         bool blink = false;
-        private int queryLayerIndex = 0;
-        private seDatasetType selectedDSTType;
         bool measurelineTool = false;
         bool measurepolygonTool = false;
         bool addGeoevent = false;
         bool moveGeoEvent = false;
         bool addGeo = true;
+        bool is_buffer = false;
+        bool Overlay = false;
+
+        public static int newDstTypeIndex = -1;
+        private int queryLayerIndex = 0;
         int CurrentPoint = 0;
 
+        seDatasetType selectedDSTType;
+        ArrayList geoList = new ArrayList();
         soGeoLine objGeoLine = null;
         soGeoRegion objGeoRegion = null;
         soGeoLine objNewLine = null;
         soPoints objTrackPoints = null;
+
+        //bool GeoBlink = true;
+        //bool QueryByMap = true;
+        //bool spatialQuery = false;
+        //int OverlayAction = 0;
 
         public Form1()
         {
@@ -336,15 +344,6 @@ namespace SMO20240904
             // SuperMap1.Action = seAction.scaSelectEx;
         }
 
-        // private void SuperMap1_GeometrySelected(object sender, AxSuperMapLib._DSuperMapEvents_GeometrySelectedEvent e)
-        // {
-        //     // MessageBox.Show("You have selected the geometry object!");
-        //     soSelection mySel = SuperMap1.selection;
-        //     soRecordset myRec = mySel.ToRecordset(false);
-        //     SuperGridView1.Connect(myRec);
-        //     SuperGridView1.Update();
-        // }
-
         private void SuperMap1_GeometrySelected(object sender, AxSuperMapLib._DSuperMapEvents_GeometrySelectedEvent e)
         {
             // 检查是否处于对象跟踪模式
@@ -389,6 +388,18 @@ namespace SMO20240904
                 // 原有的处理逻辑
                 soSelection mySel = SuperMap1.selection;
                 soRecordset myRec = mySel.ToRecordset(false);
+
+                // 主要用于防误触
+                is_buffer = true;
+                if (is_buffer & mySel.Count != 0)
+                {
+                    menuBufferAnalyse.Enabled = true;
+                }
+                else
+                {
+                    menuBufferAnalyse.Enabled = false;
+                }
+
                 SuperGridView1.Connect(myRec);
                 SuperGridView1.Update();
             }
@@ -891,24 +902,6 @@ namespace SMO20240904
             SuperMap1.Action = seAction.scaTrackPoint;
         }
 
-        //private void SuperMap1_Tracked(object sender, EventArgs e)
-        //{
-        //    if (addGeoevent)
-        //    {
-        //        soGeoPoint objGeoPoint = null;
-        //        soGeometry curGeometry;
-        //        soStyle objStyle = new soStyle();
-        //        soTrackingLayer objTracklayer = SuperMap1.TrackingLayer;
-        //        curGeometry = SuperMap1.TrackedGeometry;
-        //        objGeoPoint = (soGeoPoint)curGeometry;
-        //        objStyle.PenColor = (uint)ColorTranslator.ToOle(Color.AliceBlue);
-        //        objStyle.SymbolSize = 500;
-        //        objStyle.SymbolStyle = 1;
-        //        objTracklayer.AddEvent(curGeometry, objStyle, "Point1");
-        //        objTracklayer.Refresh();
-        //    }
-        //}
-
         private void SuperMap1_Tracked(object sender, EventArgs e)
         {
             if (addGeoevent)
@@ -966,6 +959,12 @@ namespace SMO20240904
                     MessageBox.Show("线对象为空，重采样失败", "error");
                     return;
                 }
+            }
+
+            else if (Overlay == true)
+            {
+                // 获取跟踪层上绘制的几何对象
+                soGeoRegion gobjGeoRegion = (soGeoRegion)SuperMap1.TrackedGeometry;
             }
 
         }
@@ -1069,8 +1068,8 @@ namespace SMO20240904
         private void menuTrackBySelectGeo_Click(object sender, EventArgs e)
         {
             GeoTracking = true;
-            GeoBlink = false;
-            QueryByMap = false;
+            //GeoBlink = false;
+            //QueryByMap = false;
             SuperMap1.TrackingLayer.ClearEvents();
             SuperMap1.TrackingLayer.Refresh();
             SuperMap1.Action = seAction.scaSelect;
@@ -1160,80 +1159,26 @@ namespace SMO20240904
             }
         }
 
-        // 基础的缓冲区实验生成，旧方法，已弃用
-        // private void menuBufferAnalyse_Click(object sender, EventArgs e)
-        // {
-        //     FormBufferAnalyse formbuffer = new FormBufferAnalyse();
-        //     formbuffer.Show();
-
-        //     soStyle objBufferStyle = new soStyleClass();
-        //     objBufferStyle.BrushStyle = 2;
-        //     objBufferStyle.BrushBackTransparent = true;
-        //     objBufferStyle.PenColor = (uint)ColorTranslator.ToOle(Color.Green);
-        //     objBufferStyle.PenWidth = 20;
-        //     objBufferStyle.BrushColor = (uint)ColorTranslator.ToOle(Color.DarkGreen);
-        //     soTrackingLayer objTrackingLayer = SuperMap1.TrackingLayer;
-        //     soSelection objSelect = SuperMap1.selection;
-        //     soRecordset objSelectRd = objSelect.ToRecordset(true);
-        //     objSelectRd.MoveFirst();
-        //     soGeoRegion objBufferRegion = null;
-        //     objTrackingLayer.ClearEvents();
-        //     for (int _ = 1; _ <= objSelectRd.RecordCount; _ ++)
-        //     {
-        //         soGeometry objSelectGeo = objSelectRd.GetGeometry();
-        //         if(objSelectGeo.Type == seGeometryType.scgPoint)
-        //         {
-        //             soGeoPoint objGeoPoint = (soGeoPoint)objSelectGeo;
-        //             objBufferRegion = objGeoPoint.Buffer(500,50);
-        //             Marshal.ReleaseComObject(objGeoPoint);
-        //             objGeoPoint = null;
-        //         }
-        //         else if(objSelectGeo.Type == seGeometryType.scgLine)
-        //         {
-        //             soGeoLine objGeoLine = (soGeoLine)objSelectGeo;
-        //             objBufferRegion = objGeoLine.SpatialOperator.Buffer2(500,1000,50);
-        //             Marshal.ReleaseComObject(objGeoLine);
-        //             objGeoLine = null;
-        //         }
-        //         else if(objSelectGeo.Type == seGeometryType.scgRegion)
-        //         {
-        //             soGeoRegion objGeoRegion = (soGeoRegion)objSelectGeo;
-        //             objBufferRegion = objGeoRegion.Buffer(500, 50);
-        //             Marshal.ReleaseComObject(objGeoRegion);
-        //             objGeoRegion = null;
-        //         }
-
-        //         if (objBufferRegion !=null)
-        //         {
-        //             objTrackingLayer.AddEvent((soGeometry)objBufferRegion, objBufferStyle,"");
-        //             Marshal.ReleaseComObject(objBufferRegion);
-        //             objBufferRegion = null;
-        //         }
-
-        //         Marshal.FinalReleaseComObject(objSelectGeo);
-        //         objSelectGeo = null;
-        //         objSelectRd.MoveNext();
-        //     }
-
-        //     objTrackingLayer.Refresh();
-        //     Marshal.ReleaseComObject(objSelectRd);
-        //     objSelectRd = null;
-        //     Marshal.ReleaseComObject(objSelect);
-        //     objSelect = null;
-        //     Marshal.ReleaseComObject(objTrackingLayer);
-        //     objTrackingLayer = null;
-        // }
-
         // 基础的缓冲区实验生成，新方法
         private void menuBufferAnalyse_Click(object sender, EventArgs e)
         {
-            FormBufferAnalyse formbuffer = new FormBufferAnalyse();
-            formbuffer.Show();
+            //FormBufferAnalyse formbuffer = new FormBufferAnalyse();
+            //formbuffer.Show();
 
             soStyle objBufferStyle = CreateBufferStyle();
             soTrackingLayer objTrackingLayer = SuperMap1.TrackingLayer;
             soSelection objSelect = SuperMap1.selection;
             soRecordset objSelectRd = objSelect.ToRecordset(true);
+
+            //MessageBox.Show("选中要素数量: " + objSelect.Count);
+            if (objSelectRd == null)
+            {
+                MessageBox.Show("选中要素记录集为空！");
+                return;
+            }
+
+            //MessageBox.Show("选中要素记录集数量: " + objSelectRd.RecordCount);
+
             objSelectRd.MoveFirst();
             objTrackingLayer.ClearEvents();
 
@@ -1317,9 +1262,29 @@ namespace SMO20240904
 
         private void menuOverlayAnalyse_Click(object sender, EventArgs e)
         {
-            FormOverlayAnalyse formoverlay = new FormOverlayAnalyse();
-            formoverlay.Show();
+            // 获取图层名称列表
+            List<string> layerNames = new List<string>();
+            int layersCount = SuperMap1.Layers.Count;
+            for (int i = 1; i <= layersCount; i++)
+            {
+                string layerName = SuperMap1.Layers[i].Name;
+                layerNames.Add(layerName);
+            }
+
+            // 创建并显示 FormOverlayAnalyse 窗体，传递图层列表和图层对象
+            FormOverlayAnalyse FormOverlayAnalyse = new FormOverlayAnalyse(layerNames, SuperMap1.Layers);
+            FormOverlayAnalyse.OverlayAnalyse += Form_OverlayAnalyse; // 订阅事件
+            FormOverlayAnalyse.Show(); // 如果希望以模态方式显示，则使用 ShowDialog()
         }
+
+        private void Form_OverlayAnalyse(object sender, OverlayEventArgs e)
+        { 
+            string BeOverlayName = e.BeOverlayName;
+            string OverlayRegionName = e.OverlayRegionName;
+            string CityName = e.CityName;
+            string ModeType = e.ModeType;
+        }
+
     }
 }
 

@@ -120,6 +120,9 @@
     <EmbeddedResource Include="FormCreateDst.resx">
       <DependentUpon>FormCreateDst.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormOverlayAnalyse.resx">
+      <DependentUpon>FormOverlayAnalyse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormSQLDS.resx">
       <DependentUpon>FormSQLDS.cs</DependentUpon>
     </EmbeddedResource>

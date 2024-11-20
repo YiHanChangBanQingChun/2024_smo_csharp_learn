@@ -71,6 +71,9 @@ namespace SMO20240904
             this.对象闪烁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.停止动画ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSLineTrack = new System.Windows.Forms.ToolStripMenuItem();
+            this.工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuBufferAnalyse = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuOverlayAnalyse = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnZoomin = new System.Windows.Forms.ToolStripButton();
             this.btnZoomOut = new System.Windows.Forms.ToolStripButton();
@@ -105,11 +108,6 @@ namespace SMO20240904
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuBufferAnalyse = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuOverlayAnalyse = new System.Windows.Forms.ToolStripMenuItem();
-            this.裁剪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -449,6 +447,30 @@ namespace SMO20240904
             this.menuSLineTrack.Text = "直线跟踪";
             this.menuSLineTrack.Click += new System.EventHandler(this.menuSLineTrack_Click);
             // 
+            // 工具栏ToolStripMenuItem
+            // 
+            this.工具栏ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuBufferAnalyse,
+            this.menuOverlayAnalyse});
+            this.工具栏ToolStripMenuItem.Name = "工具栏ToolStripMenuItem";
+            this.工具栏ToolStripMenuItem.Size = new System.Drawing.Size(56, 22);
+            this.工具栏ToolStripMenuItem.Text = "工具栏";
+            // 
+            // menuBufferAnalyse
+            // 
+            this.menuBufferAnalyse.Enabled = false;
+            this.menuBufferAnalyse.Name = "menuBufferAnalyse";
+            this.menuBufferAnalyse.Size = new System.Drawing.Size(152, 22);
+            this.menuBufferAnalyse.Text = "缓冲区分析";
+            this.menuBufferAnalyse.Click += new System.EventHandler(this.menuBufferAnalyse_Click);
+            // 
+            // menuOverlayAnalyse
+            // 
+            this.menuOverlayAnalyse.Name = "menuOverlayAnalyse";
+            this.menuOverlayAnalyse.Size = new System.Drawing.Size(152, 22);
+            this.menuOverlayAnalyse.Text = "叠加分析";
+            this.menuOverlayAnalyse.Click += new System.EventHandler(this.menuOverlayAnalyse_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
@@ -763,43 +785,6 @@ namespace SMO20240904
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // 工具栏ToolStripMenuItem
-            // 
-            this.工具栏ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuBufferAnalyse,
-            this.menuOverlayAnalyse});
-            this.工具栏ToolStripMenuItem.Name = "工具栏ToolStripMenuItem";
-            this.工具栏ToolStripMenuItem.Size = new System.Drawing.Size(56, 22);
-            this.工具栏ToolStripMenuItem.Text = "工具栏";
-            // 
-            // menuBufferAnalyse
-            // 
-            this.menuBufferAnalyse.Name = "menuBufferAnalyse";
-            this.menuBufferAnalyse.Size = new System.Drawing.Size(152, 22);
-            this.menuBufferAnalyse.Text = "缓冲区分析";
-            this.menuBufferAnalyse.Click += new System.EventHandler(this.menuBufferAnalyse_Click);
-            // 
-            // menuOverlayAnalyse
-            // 
-            this.menuOverlayAnalyse.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.裁剪ToolStripMenuItem,
-            this.删除ToolStripMenuItem});
-            this.menuOverlayAnalyse.Name = "menuOverlayAnalyse";
-            this.menuOverlayAnalyse.Size = new System.Drawing.Size(152, 22);
-            this.menuOverlayAnalyse.Text = "叠加分析";
-            // 
-            // 裁剪ToolStripMenuItem
-            // 
-            this.裁剪ToolStripMenuItem.Name = "裁剪ToolStripMenuItem";
-            this.裁剪ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.裁剪ToolStripMenuItem.Text = "裁剪";
-            // 
-            // 删除ToolStripMenuItem
-            // 
-            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.删除ToolStripMenuItem.Text = "删除";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -920,8 +905,6 @@ namespace SMO20240904
         private System.Windows.Forms.ToolStripMenuItem 工具栏ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuBufferAnalyse;
         private System.Windows.Forms.ToolStripMenuItem menuOverlayAnalyse;
-        private System.Windows.Forms.ToolStripMenuItem 裁剪ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
     }
 }
 
