@@ -74,6 +74,12 @@ namespace SMO20240904
             this.工具栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBufferAnalyse = new System.Windows.Forms.ToolStripMenuItem();
             this.menuOverlayAnalyse = new System.Windows.Forms.ToolStripMenuItem();
+            this.专题图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuUniqueTheme = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuLabelTheme = new System.Windows.Forms.ToolStripMenuItem();
+            this.输出为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuOutputBMP = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuOutputFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnZoomin = new System.Windows.Forms.ToolStripButton();
             this.btnZoomOut = new System.Windows.Forms.ToolStripButton();
@@ -102,12 +108,43 @@ namespace SMO20240904
             this.SuperWkspManager1 = new AxSuperWkspManagerLib.AxSuperWkspManager();
             this.SuperLegend1 = new AxSuperLegendLib.AxSuperLegend();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.SuperLayout1 = new AxSuperLayoutLib.AxSuperLayout();
             this.SuperWorkspace1 = new AxSuperMapLib.AxSuperWorkspace();
-            this.SuperMap1 = new AxSuperMapLib.AxSuperMap();
             this.SuperGridView1 = new AxSuperGridViewLib.AxSuperGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.SuperMap1 = new AxSuperMapLib.AxSuperMap();
+            this.布局ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.布局操作ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.布局浏览ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.布局元素绘制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.布局输出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.新建布局ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSaveLayout = new System.Windows.Forms.ToolStripMenuItem();
+            this.另存为布局ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除布局ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.放大ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.缩小ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.漫游ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.布局锁定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.地图浏览ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.放大地图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.缩小地图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.平移地图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.地图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.面ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.文本ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.指北针ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.输出为位图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.输出为图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打印布局ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -125,9 +162,13 @@ namespace SMO20240904
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperLayout1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuperWorkspace1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SuperMap1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuperGridView1)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperMap1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -138,11 +179,12 @@ namespace SMO20240904
             this.数据源ToolStripMenuItem,
             this.menuDataset,
             this.跟踪图层ToolStripMenuItem,
-            this.工具栏ToolStripMenuItem});
+            this.工具栏ToolStripMenuItem,
+            this.布局ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(1203, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1061, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -451,7 +493,8 @@ namespace SMO20240904
             // 
             this.工具栏ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuBufferAnalyse,
-            this.menuOverlayAnalyse});
+            this.menuOverlayAnalyse,
+            this.专题图ToolStripMenuItem});
             this.工具栏ToolStripMenuItem.Name = "工具栏ToolStripMenuItem";
             this.工具栏ToolStripMenuItem.Size = new System.Drawing.Size(56, 22);
             this.工具栏ToolStripMenuItem.Text = "工具栏";
@@ -470,6 +513,53 @@ namespace SMO20240904
             this.menuOverlayAnalyse.Size = new System.Drawing.Size(152, 22);
             this.menuOverlayAnalyse.Text = "叠加分析";
             this.menuOverlayAnalyse.Click += new System.EventHandler(this.menuOverlayAnalyse_Click);
+            // 
+            // 专题图ToolStripMenuItem
+            // 
+            this.专题图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuUniqueTheme,
+            this.menuLabelTheme,
+            this.输出为ToolStripMenuItem});
+            this.专题图ToolStripMenuItem.Name = "专题图ToolStripMenuItem";
+            this.专题图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.专题图ToolStripMenuItem.Text = "专题图";
+            // 
+            // menuUniqueTheme
+            // 
+            this.menuUniqueTheme.Name = "menuUniqueTheme";
+            this.menuUniqueTheme.Size = new System.Drawing.Size(152, 22);
+            this.menuUniqueTheme.Text = "单值专题图";
+            this.menuUniqueTheme.Click += new System.EventHandler(this.menuUniqueTheme_Click);
+            // 
+            // menuLabelTheme
+            // 
+            this.menuLabelTheme.Name = "menuLabelTheme";
+            this.menuLabelTheme.Size = new System.Drawing.Size(152, 22);
+            this.menuLabelTheme.Text = "标签专题图";
+            this.menuLabelTheme.Click += new System.EventHandler(this.menuLabelTheme_Click);
+            // 
+            // 输出为ToolStripMenuItem
+            // 
+            this.输出为ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuOutputBMP,
+            this.menuOutputFile});
+            this.输出为ToolStripMenuItem.Name = "输出为ToolStripMenuItem";
+            this.输出为ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.输出为ToolStripMenuItem.Text = "输出为.....";
+            // 
+            // menuOutputBMP
+            // 
+            this.menuOutputBMP.Name = "menuOutputBMP";
+            this.menuOutputBMP.Size = new System.Drawing.Size(152, 22);
+            this.menuOutputBMP.Text = "BMP";
+            this.menuOutputBMP.Click += new System.EventHandler(this.menuOutputBMP_Click);
+            // 
+            // menuOutputFile
+            // 
+            this.menuOutputFile.Name = "menuOutputFile";
+            this.menuOutputFile.Size = new System.Drawing.Size(152, 22);
+            this.menuOutputFile.Text = "文件";
+            this.menuOutputFile.Click += new System.EventHandler(this.menuOutputFile_Click);
             // 
             // toolStrip1
             // 
@@ -497,7 +587,7 @@ namespace SMO20240904
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1203, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(1061, 39);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -648,9 +738,9 @@ namespace SMO20240904
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 567);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 668);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1203, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1061, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -680,8 +770,8 @@ namespace SMO20240904
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Size = new System.Drawing.Size(1203, 504);
-            this.splitContainer1.SplitterDistance = 298;
+            this.splitContainer1.Size = new System.Drawing.Size(1061, 605);
+            this.splitContainer1.SplitterDistance = 262;
             this.splitContainer1.TabIndex = 3;
             // 
             // splitContainer2
@@ -698,8 +788,8 @@ namespace SMO20240904
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.SuperLegend1);
-            this.splitContainer2.Size = new System.Drawing.Size(298, 504);
-            this.splitContainer2.SplitterDistance = 245;
+            this.splitContainer2.Size = new System.Drawing.Size(262, 605);
+            this.splitContainer2.SplitterDistance = 294;
             this.splitContainer2.TabIndex = 0;
             // 
             // SuperWkspManager1
@@ -709,7 +799,7 @@ namespace SMO20240904
             this.SuperWkspManager1.Location = new System.Drawing.Point(0, 0);
             this.SuperWkspManager1.Name = "SuperWkspManager1";
             this.SuperWkspManager1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("SuperWkspManager1.OcxState")));
-            this.SuperWkspManager1.Size = new System.Drawing.Size(298, 245);
+            this.SuperWkspManager1.Size = new System.Drawing.Size(262, 294);
             this.SuperWkspManager1.TabIndex = 0;
             this.SuperWkspManager1.LClick += new AxSuperWkspManagerLib._DSuperWkspManagerEvents_LClickEventHandler(this.SuperWkspManager1_LClick);
             this.SuperWkspManager1.LDbClick += new AxSuperWkspManagerLib._DSuperWkspManagerEvents_LDbClickEventHandler(this.SuperWkspManager1_LDbClick);
@@ -721,7 +811,7 @@ namespace SMO20240904
             this.SuperLegend1.Location = new System.Drawing.Point(0, 0);
             this.SuperLegend1.Name = "SuperLegend1";
             this.SuperLegend1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("SuperLegend1.OcxState")));
-            this.SuperLegend1.Size = new System.Drawing.Size(298, 255);
+            this.SuperLegend1.Size = new System.Drawing.Size(262, 307);
             this.SuperLegend1.TabIndex = 0;
             this.SuperLegend1.Modified += new System.EventHandler(this.SuperLegend1_Modified);
             // 
@@ -734,37 +824,33 @@ namespace SMO20240904
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.SuperWorkspace1);
-            this.splitContainer3.Panel1.Controls.Add(this.SuperMap1);
+            this.splitContainer3.Panel1.Controls.Add(this.tabControl1);
             // 
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.SuperGridView1);
-            this.splitContainer3.Size = new System.Drawing.Size(901, 504);
-            this.splitContainer3.SplitterDistance = 352;
+            this.splitContainer3.Size = new System.Drawing.Size(795, 605);
+            this.splitContainer3.SplitterDistance = 422;
             this.splitContainer3.TabIndex = 0;
+            // 
+            // SuperLayout1
+            // 
+            this.SuperLayout1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SuperLayout1.Enabled = true;
+            this.SuperLayout1.Location = new System.Drawing.Point(3, 3);
+            this.SuperLayout1.Name = "SuperLayout1";
+            this.SuperLayout1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("SuperLayout1.OcxState")));
+            this.SuperLayout1.Size = new System.Drawing.Size(781, 390);
+            this.SuperLayout1.TabIndex = 2;
             // 
             // SuperWorkspace1
             // 
             this.SuperWorkspace1.Enabled = true;
-            this.SuperWorkspace1.Location = new System.Drawing.Point(330, 211);
+            this.SuperWorkspace1.Location = new System.Drawing.Point(206, 201);
             this.SuperWorkspace1.Name = "SuperWorkspace1";
             this.SuperWorkspace1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("SuperWorkspace1.OcxState")));
             this.SuperWorkspace1.Size = new System.Drawing.Size(32, 32);
             this.SuperWorkspace1.TabIndex = 1;
-            // 
-            // SuperMap1
-            // 
-            this.SuperMap1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SuperMap1.Enabled = true;
-            this.SuperMap1.Location = new System.Drawing.Point(0, 0);
-            this.SuperMap1.Name = "SuperMap1";
-            this.SuperMap1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("SuperMap1.OcxState")));
-            this.SuperMap1.Size = new System.Drawing.Size(901, 352);
-            this.SuperMap1.TabIndex = 0;
-            this.SuperMap1.GeometrySelected += new AxSuperMapLib._DSuperMapEvents_GeometrySelectedEventHandler(this.SuperMap1_GeometrySelected);
-            this.SuperMap1.Tracking += new AxSuperMapLib._DSuperMapEvents_TrackingEventHandler(this.SuperMap1_Tracking);
-            this.SuperMap1.Tracked += new System.EventHandler(this.SuperMap1_Tracked);
             // 
             // SuperGridView1
             // 
@@ -773,7 +859,7 @@ namespace SMO20240904
             this.SuperGridView1.Location = new System.Drawing.Point(0, 0);
             this.SuperGridView1.Name = "SuperGridView1";
             this.SuperGridView1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("SuperGridView1.OcxState")));
-            this.SuperGridView1.Size = new System.Drawing.Size(901, 148);
+            this.SuperGridView1.Size = new System.Drawing.Size(795, 179);
             this.SuperGridView1.TabIndex = 0;
             this.SuperGridView1.ItemSelected += new AxSuperGridViewLib._DSuperGridViewEvents_ItemSelectedEventHandler(this.SuperGridView1_ItemSelected);
             // 
@@ -785,11 +871,250 @@ namespace SMO20240904
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(795, 422);
+            this.tabControl1.TabIndex = 3;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.SuperLayout1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(787, 396);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "制图";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.SuperWorkspace1);
+            this.tabPage2.Controls.Add(this.SuperMap1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(787, 396);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "地图";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // SuperMap1
+            // 
+            this.SuperMap1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SuperMap1.Enabled = true;
+            this.SuperMap1.Location = new System.Drawing.Point(3, 3);
+            this.SuperMap1.Name = "SuperMap1";
+            this.SuperMap1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("SuperMap1.OcxState")));
+            this.SuperMap1.Size = new System.Drawing.Size(781, 390);
+            this.SuperMap1.TabIndex = 1;
+            // 
+            // 布局ToolStripMenuItem
+            // 
+            this.布局ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.布局操作ToolStripMenuItem,
+            this.布局浏览ToolStripMenuItem,
+            this.布局元素绘制ToolStripMenuItem,
+            this.布局输出ToolStripMenuItem});
+            this.布局ToolStripMenuItem.Name = "布局ToolStripMenuItem";
+            this.布局ToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
+            this.布局ToolStripMenuItem.Text = "布局";
+            // 
+            // 布局操作ToolStripMenuItem
+            // 
+            this.布局操作ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.新建布局ToolStripMenuItem,
+            this.menuSaveLayout,
+            this.另存为布局ToolStripMenuItem,
+            this.删除布局ToolStripMenuItem});
+            this.布局操作ToolStripMenuItem.Name = "布局操作ToolStripMenuItem";
+            this.布局操作ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.布局操作ToolStripMenuItem.Text = "布局操作";
+            // 
+            // 布局浏览ToolStripMenuItem
+            // 
+            this.布局浏览ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.选择ToolStripMenuItem,
+            this.放大ToolStripMenuItem,
+            this.缩小ToolStripMenuItem,
+            this.漫游ToolStripMenuItem,
+            this.布局锁定ToolStripMenuItem,
+            this.地图浏览ToolStripMenuItem});
+            this.布局浏览ToolStripMenuItem.Name = "布局浏览ToolStripMenuItem";
+            this.布局浏览ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.布局浏览ToolStripMenuItem.Text = "布局浏览";
+            // 
+            // 布局元素绘制ToolStripMenuItem
+            // 
+            this.布局元素绘制ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.地图ToolStripMenuItem,
+            this.点ToolStripMenuItem,
+            this.线ToolStripMenuItem,
+            this.面ToolStripMenuItem,
+            this.文本ToolStripMenuItem,
+            this.指北针ToolStripMenuItem});
+            this.布局元素绘制ToolStripMenuItem.Name = "布局元素绘制ToolStripMenuItem";
+            this.布局元素绘制ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.布局元素绘制ToolStripMenuItem.Text = "布局元素绘制";
+            // 
+            // 布局输出ToolStripMenuItem
+            // 
+            this.布局输出ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.输出为位图ToolStripMenuItem,
+            this.输出为图片ToolStripMenuItem,
+            this.打印布局ToolStripMenuItem});
+            this.布局输出ToolStripMenuItem.Name = "布局输出ToolStripMenuItem";
+            this.布局输出ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.布局输出ToolStripMenuItem.Text = "布局输出";
+            // 
+            // 新建布局ToolStripMenuItem
+            // 
+            this.新建布局ToolStripMenuItem.Name = "新建布局ToolStripMenuItem";
+            this.新建布局ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.新建布局ToolStripMenuItem.Text = "新建布局";
+            // 
+            // menuSaveLayout
+            // 
+            this.menuSaveLayout.Name = "menuSaveLayout";
+            this.menuSaveLayout.Size = new System.Drawing.Size(152, 22);
+            this.menuSaveLayout.Text = "保存布局";
+            this.menuSaveLayout.Click += new System.EventHandler(this.menuSaveLayout_Click);
+            // 
+            // 另存为布局ToolStripMenuItem
+            // 
+            this.另存为布局ToolStripMenuItem.Name = "另存为布局ToolStripMenuItem";
+            this.另存为布局ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.另存为布局ToolStripMenuItem.Text = "另存为布局";
+            // 
+            // 删除布局ToolStripMenuItem
+            // 
+            this.删除布局ToolStripMenuItem.Name = "删除布局ToolStripMenuItem";
+            this.删除布局ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.删除布局ToolStripMenuItem.Text = "删除布局";
+            // 
+            // 选择ToolStripMenuItem
+            // 
+            this.选择ToolStripMenuItem.Name = "选择ToolStripMenuItem";
+            this.选择ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.选择ToolStripMenuItem.Text = "选择";
+            // 
+            // 放大ToolStripMenuItem
+            // 
+            this.放大ToolStripMenuItem.Name = "放大ToolStripMenuItem";
+            this.放大ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.放大ToolStripMenuItem.Text = "放大";
+            // 
+            // 缩小ToolStripMenuItem
+            // 
+            this.缩小ToolStripMenuItem.Name = "缩小ToolStripMenuItem";
+            this.缩小ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.缩小ToolStripMenuItem.Text = "缩小";
+            // 
+            // 漫游ToolStripMenuItem
+            // 
+            this.漫游ToolStripMenuItem.Name = "漫游ToolStripMenuItem";
+            this.漫游ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.漫游ToolStripMenuItem.Text = "漫游";
+            // 
+            // 布局锁定ToolStripMenuItem
+            // 
+            this.布局锁定ToolStripMenuItem.Name = "布局锁定ToolStripMenuItem";
+            this.布局锁定ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.布局锁定ToolStripMenuItem.Text = "布局锁定";
+            // 
+            // 地图浏览ToolStripMenuItem
+            // 
+            this.地图浏览ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.放大地图ToolStripMenuItem,
+            this.缩小地图ToolStripMenuItem,
+            this.平移地图ToolStripMenuItem});
+            this.地图浏览ToolStripMenuItem.Name = "地图浏览ToolStripMenuItem";
+            this.地图浏览ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.地图浏览ToolStripMenuItem.Text = "地图浏览";
+            // 
+            // 放大地图ToolStripMenuItem
+            // 
+            this.放大地图ToolStripMenuItem.Name = "放大地图ToolStripMenuItem";
+            this.放大地图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.放大地图ToolStripMenuItem.Text = "放大地图";
+            // 
+            // 缩小地图ToolStripMenuItem
+            // 
+            this.缩小地图ToolStripMenuItem.Name = "缩小地图ToolStripMenuItem";
+            this.缩小地图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.缩小地图ToolStripMenuItem.Text = "缩小地图";
+            // 
+            // 平移地图ToolStripMenuItem
+            // 
+            this.平移地图ToolStripMenuItem.Name = "平移地图ToolStripMenuItem";
+            this.平移地图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.平移地图ToolStripMenuItem.Text = "平移地图";
+            // 
+            // 地图ToolStripMenuItem
+            // 
+            this.地图ToolStripMenuItem.Name = "地图ToolStripMenuItem";
+            this.地图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.地图ToolStripMenuItem.Text = "地图";
+            // 
+            // 点ToolStripMenuItem
+            // 
+            this.点ToolStripMenuItem.Name = "点ToolStripMenuItem";
+            this.点ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.点ToolStripMenuItem.Text = "点";
+            // 
+            // 线ToolStripMenuItem
+            // 
+            this.线ToolStripMenuItem.Name = "线ToolStripMenuItem";
+            this.线ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.线ToolStripMenuItem.Text = "线";
+            // 
+            // 面ToolStripMenuItem
+            // 
+            this.面ToolStripMenuItem.Name = "面ToolStripMenuItem";
+            this.面ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.面ToolStripMenuItem.Text = "面";
+            // 
+            // 文本ToolStripMenuItem
+            // 
+            this.文本ToolStripMenuItem.Name = "文本ToolStripMenuItem";
+            this.文本ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.文本ToolStripMenuItem.Text = "文本";
+            // 
+            // 指北针ToolStripMenuItem
+            // 
+            this.指北针ToolStripMenuItem.Name = "指北针ToolStripMenuItem";
+            this.指北针ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.指北针ToolStripMenuItem.Text = "指北针";
+            // 
+            // 输出为位图ToolStripMenuItem
+            // 
+            this.输出为位图ToolStripMenuItem.Name = "输出为位图ToolStripMenuItem";
+            this.输出为位图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.输出为位图ToolStripMenuItem.Text = "输出为位图";
+            // 
+            // 输出为图片ToolStripMenuItem
+            // 
+            this.输出为图片ToolStripMenuItem.Name = "输出为图片ToolStripMenuItem";
+            this.输出为图片ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.输出为图片ToolStripMenuItem.Text = "输出为图片";
+            // 
+            // 打印布局ToolStripMenuItem
+            // 
+            this.打印布局ToolStripMenuItem.Name = "打印布局ToolStripMenuItem";
+            this.打印布局ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.打印布局ToolStripMenuItem.Text = "打印布局";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1203, 589);
+            this.ClientSize = new System.Drawing.Size(1061, 690);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
@@ -818,9 +1143,13 @@ namespace SMO20240904
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SuperLayout1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuperWorkspace1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SuperMap1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuperGridView1)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SuperMap1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -846,7 +1175,6 @@ namespace SMO20240904
         private System.Windows.Forms.ToolStripButton btnPan;
         private System.Windows.Forms.ToolStripButton btnViewEntire;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
-        private AxSuperMapLib.AxSuperMap SuperMap1;
         private AxSuperGridViewLib.AxSuperGridView SuperGridView1;
         private AxSuperWkspManagerLib.AxSuperWkspManager SuperWkspManager1;
         private AxSuperLegendLib.AxSuperLegend SuperLegend1;
@@ -905,6 +1233,44 @@ namespace SMO20240904
         private System.Windows.Forms.ToolStripMenuItem 工具栏ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuBufferAnalyse;
         private System.Windows.Forms.ToolStripMenuItem menuOverlayAnalyse;
+        private System.Windows.Forms.ToolStripMenuItem 专题图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuUniqueTheme;
+        private System.Windows.Forms.ToolStripMenuItem 输出为ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuOutputBMP;
+        private System.Windows.Forms.ToolStripMenuItem menuOutputFile;
+        private System.Windows.Forms.ToolStripMenuItem menuLabelTheme;
+        private AxSuperLayoutLib.AxSuperLayout SuperLayout1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private AxSuperMapLib.AxSuperMap SuperMap1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.ToolStripMenuItem 布局ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 布局操作ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 新建布局ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuSaveLayout;
+        private System.Windows.Forms.ToolStripMenuItem 另存为布局ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 删除布局ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 布局浏览ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 选择ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 放大ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 缩小ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 漫游ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 布局锁定ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 地图浏览ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 放大地图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 缩小地图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 平移地图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 布局元素绘制ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 地图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 点ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 线ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 面ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 文本ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 指北针ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 布局输出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 输出为位图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 输出为图片ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打印布局ToolStripMenuItem;
     }
 }
 

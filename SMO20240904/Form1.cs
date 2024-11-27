@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using System.Runtime.InteropServices;
+using SuperWkspManagerLib;
 
 namespace SMO20240904
 {
@@ -18,6 +19,10 @@ namespace SMO20240904
         public static string selectedDSName = "";
         public static string newDstName = "";
         string selectedDSTName = "";
+
+        string BeOverlayName = "";
+        string OverlayRegionName = "";
+        string CityName = "";
         string ModeType = "";
 
         bool GeoTracking = false;
@@ -100,19 +105,6 @@ namespace SMO20240904
                             cboLayersInMap.Items.Add(layerName);
                         }
                         cboLayersInMap.EndUpdate();
-                        //soDatasetVector dstv = (soDatasetVector)SuperMap1.Layers[4].Dataset;
-                        //soStrings qfields = new soStrings();
-                        //qfields.Add("Name");
-                        //soRecordset rec_names = dstv.Query("", false, qfields, "");
-                        //int cou = rec_names.RecordCount;
-                        //cboDistricts.BeginUpdate();
-                        //rec_names.MoveFirst();
-                        //cboDistricts.Items.Add(rec_names.GetFieldValue(1).ToString());
-                        //for (int j = 2; j <= rec_names.RecordCount; j++)
-                        //{
-                            //rec_names.MoveFirst();
-                            //cboDistricts.Items.Add
-                        //}
                     }
                     else
                     {
@@ -238,11 +230,11 @@ namespace SMO20240904
 
         private void menuDeleteDst_Click(object sender, EventArgs e)
         {
-            if(SuperMap1.Layers.Count>0)
+            if (SuperMap1.Layers.Count > 0)
             {
-                for (int i = 1; i<=SuperMap1.Layers.Count;i++)
+                for (int i = 1; i <= SuperMap1.Layers.Count; i++)
                 {
-                    if(SuperMap1.Layers[i].Dataset.Name == selectedDSTName)
+                    if (SuperMap1.Layers[i].Dataset.Name == selectedDSTName)
                     {
                         SuperMap1.Layers.RemoveAt(i);
                         SuperMap1.Refresh();
@@ -251,10 +243,10 @@ namespace SMO20240904
                 }
             }
             bool bResult = SuperWorkspace1.Datasources[selectedDSName].DeleteDataset(selectedDSTName);
-            if(bResult)
+            if (bResult)
             {
                 SuperWkspManager1.Refresh();
-                statusLabel.Text=selectedDSName+"success";
+                statusLabel.Text = selectedDSName + "success";
             }
         }
 
@@ -491,7 +483,7 @@ namespace SMO20240904
                 }
                 else
                 {
-                    
+
                 }
                 while (resResult.MoveNext())
                 {
@@ -960,13 +952,6 @@ namespace SMO20240904
                     return;
                 }
             }
-
-            else if (Overlay == true)
-            {
-                // 获取跟踪层上绘制的几何对象
-                soGeoRegion gobjGeoRegion = (soGeoRegion)SuperMap1.TrackedGeometry;
-            }
-
         }
 
         private void menuMoveGeoevent_Click(object sender, EventArgs e)
@@ -1159,7 +1144,7 @@ namespace SMO20240904
             }
         }
 
-        // 基础的缓冲区实验生成，新方法
+        // 基础的缓冲区实验生成，优化封装之后
         private void menuBufferAnalyse_Click(object sender, EventArgs e)
         {
             //FormBufferAnalyse formbuffer = new FormBufferAnalyse();
@@ -1274,17 +1259,307 @@ namespace SMO20240904
             // 创建并显示 FormOverlayAnalyse 窗体，传递图层列表和图层对象
             FormOverlayAnalyse FormOverlayAnalyse = new FormOverlayAnalyse(layerNames, SuperMap1.Layers);
             FormOverlayAnalyse.OverlayAnalyse += Form_OverlayAnalyse; // 订阅事件
-            FormOverlayAnalyse.Show(); // 如果希望以模态方式显示，则使用 ShowDialog()
+            FormOverlayAnalyse.Show();
         }
 
         private void Form_OverlayAnalyse(object sender, OverlayEventArgs e)
-        { 
-            string BeOverlayName = e.BeOverlayName;
-            string OverlayRegionName = e.OverlayRegionName;
-            string CityName = e.CityName;
-            string ModeType = e.ModeType;
+        {
+            BeOverlayName = e.BeOverlayName;
+            OverlayRegionName = e.OverlayRegionName;
+            CityName = e.CityName;
+            ModeType = e.ModeType;
+            //MessageBox.Show("1:OverlayRegionName " + OverlayRegionName + " 2:BeOverlayName " + BeOverlayName + " 3:CityName " + CityName, "提示");
+
+            Overlay = true;
+            PerformOverlayAnalysis();
         }
 
+        private void PerformOverlayAnalysis()
+        {
+            // 获取叠加区域的几何对象
+            soLayer overlayRegionLayer = SuperMap1.Layers[OverlayRegionName];
+            if (overlayRegionLayer == null)
+            {
+                MessageBox.Show("未找到叠加区域图层: " + OverlayRegionName, "错误提示");
+                return;
+            }
+
+            soDatasetVector overlayRegionDataset = (soDatasetVector)overlayRegionLayer.Dataset;
+            soRecordset overlayRegionRecordset = overlayRegionDataset.Query("Name = '" + CityName + "'", true);
+            if (overlayRegionRecordset == null || overlayRegionRecordset.IsEOF())
+            {
+                MessageBox.Show("未找到名称为 '" + CityName + "' 的记录", "错误提示");
+                return;
+            }
+
+            overlayRegionRecordset.MoveFirst();
+            soGeometry gobjGeoRegion = overlayRegionRecordset.GetGeometry();
+            if (gobjGeoRegion == null || gobjGeoRegion.Type != seGeometryType.scgRegion)
+            {
+                MessageBox.Show("几何对象为空或类型不正确", "错误提示");
+                return;
+            }
+            // 获取被处理的图层
+            soLayer beOverlayLayer = SuperMap1.Layers[BeOverlayName];
+            if (beOverlayLayer == null)
+            {
+                MessageBox.Show("未找到被处理的图层: " + BeOverlayName, "错误提示");
+                return;
+            }
+
+            // 获取被叠加分析的数据集
+            soDataset objDt = beOverlayLayer.Dataset;
+            if (objDt == null)
+            {
+                MessageBox.Show("未找到被处理的图层的数据集: " + BeOverlayName, "错误提示");
+                return;
+            }
+
+            // 在数据源中创建数据集 objNewDt 用来保存叠加分析后的结果
+            soDataSource dataSource = this.SuperWorkspace1.Datasources[1];
+            if (dataSource == null)
+            {
+                MessageBox.Show("未找到数据源", "错误提示");
+                return;
+            }
+
+            string newDatasetName = "OverlayResult";
+            int _ = 1;
+            while (dataSource.Datasets[newDatasetName] != null)
+            {
+                newDatasetName = "OverlayResult" + _;
+                //MessageBox.Show("OverlayResult" + _, "提示");
+                _++;
+            }
+            soDataset objNewDt = dataSource.CreateDataset(newDatasetName, objDt.Type, seDatasetOption.scoDefault);
+            if (objNewDt == null)
+            {
+                MessageBox.Show("存放结果数据集创建失败", "提示");
+                return;
+            }
+
+            soDatasetVector objDtv = (soDatasetVector)objDt; // 获取被叠加分析的矢量数据集
+            soDatasetVector objNewDtv = (soDatasetVector)objNewDt; // 将数据集 objNewDt 强制类型转换为矢量数据集类型
+
+            // 新建叠加分析对象
+            soOverlayAnalyst objOverlayAnalyst = new soOverlayAnalyst();
+            bool bAnalyst = false;
+            switch (ModeType)
+            {
+                case "cut":
+                    // 利用 gobjGeoRegion 去裁剪 objDtv，结果保存在 objNewDtv 中
+                    bAnalyst = objOverlayAnalyst.Clip(objDtv, (soGeoRegion)gobjGeoRegion, objNewDtv);
+                    break;
+                case "delete":
+                    // 利用 gobjGeoRegion 去擦除 objDtv，结果保存在 objNewDtv 中
+                    bAnalyst = objOverlayAnalyst.Erase(objDtv, (soGeoRegion)gobjGeoRegion, objNewDtv);
+                    break;
+            }
+            if (bAnalyst)
+            {
+                // 叠加分析成功则刷新工作空间管理器
+                SuperWkspManager1.Refresh();
+
+                // 将新创建的数据集添加到 SuperMap1 的图层中
+                bool bAddToHead = true;
+
+                SuperMap1.Layers.AddDataset(objNewDt, bAddToHead);
+                SuperMap1.Refresh();
+                SuperWkspManager1.Refresh();
+            }
+            else
+            {
+                // 叠加分析失败则提示信息
+                MessageBox.Show("叠加分析失败", "提示");
+                //return;
+            }
+            // 释放 COM 对象所占用的资源
+            Marshal.ReleaseComObject(objNewDtv);
+            objNewDtv = null;
+            Marshal.ReleaseComObject(objNewDt);
+            objNewDt = null;
+            Marshal.ReleaseComObject(objOverlayAnalyst);
+            objOverlayAnalyst = null;
+            Marshal.ReleaseComObject(objDtv);
+            objDtv = null;
+            Marshal.ReleaseComObject(objDt);
+            objDt = null;
+            Marshal.ReleaseComObject(beOverlayLayer);
+            beOverlayLayer = null;
+            SuperMap1.Action = seAction.scaNull;
+            Marshal.ReleaseComObject(gobjGeoRegion);
+            gobjGeoRegion = null;
+        }
+
+        private void menuUniqueTheme_Click(object sender, EventArgs e)
+        {
+            soLayer objThemeLayer = SuperMap1.Layers[cboLayersInMap.Text];
+            soThemeUnique objUnique = objThemeLayer.ThemeUnique;
+            objUnique.Caption = "Ex Unique Theme (yhcbqc)";
+            // name是温度带的最后一列的名字
+            objUnique.Field = "Name";
+            objUnique.MakeDefault();
+
+            SuperMap1.Refresh();
+            SuperLegend1.Refresh();
+            soColors objColorTheme = new soColors();
+            int themeCount = objUnique.ValueCount;
+            objColorTheme.MakeRandomColorset(themeCount);
+            for (int _ = 1; _ <= themeCount; _++)
+            {
+                objUnique.get_Style(_).BrushColor = (uint)objColorTheme[_];
+            }
+            SuperMap1.Refresh();
+            SuperLegend1.Refresh();
+        }
+
+        //private void menuLabelTheme_Click(object sender, EventArgs e)
+        //{
+        //    // 获取图层
+        //    soLayer objThemeLayer = SuperMap1.Layers[cboLayersInMap.Text];
+        //    if (objThemeLayer == null)
+        //    {
+        //        MessageBox.Show("请选择一个图层。");
+        //        return;
+        //    }
+
+        //    // 创建单值专题图对象
+        //    soThemeUnique objUnique = objThemeLayer.ThemeUnique;
+        //    if (objUnique == null)
+        //    {
+        //        MessageBox.Show("无法创建单值专题图对象。");
+        //        return;
+        //    }
+        //    soThemeLabel objLabel = objThemeLayer.ThemeLabel;
+        //    if (objLabel == null)
+        //    {
+        //        MessageBox.Show("无法创建标签专题图对象。");
+        //        return;
+        //    }
+
+        //    objLabel.OnTop = true;
+        //    objLabel.VisibleScaleMax = 0.0;
+        //    objLabel.VisibleScaleMin = 0.0;
+        //    objLabel.Valid = true;
+        //    objLabel.IsForeignValue = 1;
+        //    objLabel.Field = "Name";
+        //    objLabel.AutoAvoidOverlapped = true;
+        //    // 设置文本样式
+        //    soTextStyle objTextStyle = new soTextStyle();
+        //    objTextStyle.Color = (uint)ColorTranslator.ToOle(Color.White);
+        //    objTextStyle.FixedSize = false;
+        //    objTextStyle.FixedTextSize = 1000;
+        //    objLabel.TextStyle = objTextStyle;
+
+        //    // 设置单值专题图属性
+        //    objUnique.Caption = "单值专题图";
+        //    objUnique.Field = "Name"; // 确保字段名称正确
+        //    objUnique.MakeDefault();
+
+        //    // 设置单值专题图颜色
+        //    soColors objColorTheme = new soColors();
+        //    int themeCount = objUnique.ValueCount;
+        //    objColorTheme.MakeRandomColorset(themeCount);
+        //    for (int _ = 1; _ <= themeCount; _++)
+        //    {
+        //        objUnique.get_Style(_).BrushColor = (uint)objColorTheme[_];
+        //        //objLabel.TextStyle = objTextStyle;
+
+        //    }
+
+        //    // 刷新地图和图例
+        //    SuperMap1.Refresh();
+        //    SuperLegend1.Refresh();
+        //}
+        private void menuLabelTheme_Click(object sender, EventArgs e)
+        {
+            // 获取图层
+            soLayer objThemeLayer = SuperMap1.Layers[cboLayersInMap.Text];
+
+            // 检查是否支持标签专题图
+            soThemeLabel objLabel = objThemeLayer.ThemeLabel;
+
+            // 配置标签专题图
+            objLabel.Enable = true;
+            objLabel.Field = "Name";  // 确保字段 "Name" 存在
+            objLabel.OnTop = true;
+            objLabel.VisibleScaleMax = 0.0;
+            objLabel.VisibleScaleMin = 0.0;
+            objLabel.AutoAvoidOverlapped = true;
+            objLabel.IgnoreSmallObject = true;
+
+            // 设置文本样式
+            soTextStyle objTextStyle = new soTextStyle();
+            objTextStyle.Color = (uint)ColorTranslator.ToOle(Color.Black); // 设置为黑色
+            objTextStyle.FontName = "宋体"; // 字体名称
+            objTextStyle.FontHeight = 100000; // 字体大小
+            objTextStyle.Bold = true; // 加粗
+            objTextStyle.Transparent = false; // 非透明
+            objTextStyle.BgColor = (uint)ColorTranslator.ToOle(Color.White); // 设置为黑色
+            objLabel.TextStyle = objTextStyle;
+
+            // 刷新地图和图例
+            SuperMap1.Refresh();
+            SuperLegend1.Refresh();
+
+            // 检查标签是否成功创建
+            if (objLabel.Valid)
+            {
+                MessageBox.Show("标签专题图已成功创建！");
+            }
+            else
+            {
+                MessageBox.Show("标签专题图创建失败，请检查配置。");
+            }
+        }
+
+        private void menuOutputBMP_Click(object sender, EventArgs e)
+        {
+            //// 打开文件资源管理器选择输出位置和文件名
+            //SaveFileDialog saveFileDialog = new SaveFileDialog();
+            //saveFileDialog.Filter = "BMP 文件|*.bmp";
+            //saveFileDialog.Title = "选择输出 BMP 文件的位置";
+            //if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            //{
+            //    string filePath = saveFileDialog.FileName;
+            //    int dpi = 400; // 输出 DPI 设置为 400
+            //    bool showProgress = true; // 显示进程条
+
+            //    // 将 SuperMap1 的地图添加到 SuperLayout1 中
+            //    soLytElementMap mapElement = (soLytElementMap)SuperLayout1.Elements.AddNew(seLytElementType.sletMap);
+            //    mapElement.Map = SuperMap1;
+
+            //    // 调整地图元素的大小和位置
+            //    mapElement.Width = SuperLayout1.Page.PageWidth;
+            //    mapElement.Height = SuperLayout1.Page.PageHeight;
+            //    mapElement.Left = 0;
+            //    mapElement.Top = 0;
+
+            //    // 刷新布局
+            //    SuperLayout1.Refresh();
+
+            //    // 调用 OutputToBMP 方法输出 BMP 文件
+            //    bool result = SuperLayout1.OutputToBMP(filePath, dpi, showProgress);
+            //    if (result)
+            //    {
+            //        MessageBox.Show("BMP 文件导出成功！");
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("BMP 文件导出失败，请检查配置。");
+            //    }
+            //}
+        }
+
+        private void menuOutputFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuSaveLayout_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

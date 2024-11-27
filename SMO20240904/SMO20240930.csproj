@@ -161,6 +161,14 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="AxSuperLayoutLib">
+      <Guid>{4FC91D58-577E-4757-BB48-21E286FB41BF}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="AxSuperLegendLib">
       <Guid>{02BEE3A6-4264-45B0-93C8-76FBBA329150}</Guid>
       <VersionMajor>5</VersionMajor>
@@ -196,6 +204,15 @@
     </COMReference>
     <COMReference Include="SuperGridViewLib">
       <Guid>{AB69DB6A-F6B5-4BCD-BF57-170D7A3F41F5}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="SuperLayoutLib">
+      <Guid>{4FC91D58-577E-4757-BB48-21E286FB41BF}</Guid>
       <VersionMajor>5</VersionMajor>
       <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>

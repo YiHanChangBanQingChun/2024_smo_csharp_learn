@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SMO20240904
 {
     public partial class FormOverlayAnalyse : Form
-    { 
+    {
         private SuperMapLib.soLayers layers;
         public event EventHandler<OverlayEventArgs> OverlayAnalyse;
 
@@ -33,12 +28,12 @@ namespace SMO20240904
 
         private void cboBeOverlay_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string beOverlayName = cboBeOverlay.SelectedItem.ToString();
+            beOverlayName = cboBeOverlay.SelectedItem.ToString();
         }
 
         private void cboOverlayRegion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string overlayRegionName = cboOverlayRegion.SelectedItem.ToString();
+            overlayRegionName = cboOverlayRegion.SelectedItem.ToString();
 
             SuperMapLib.soLayer selectedLayer = layers[overlayRegionName];
             if (selectedLayer != null)
@@ -61,7 +56,7 @@ namespace SMO20240904
 
         private void cboOverlayCity_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string CityName = cboOverlayCity.SelectedItem.ToString();
+            CityName = cboOverlayCity.SelectedItem.ToString();
         }
 
         private void btnCut_Click(object sender, EventArgs e)
