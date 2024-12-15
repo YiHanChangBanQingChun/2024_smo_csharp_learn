@@ -73,6 +73,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form3DPath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form3DPath.Designer.cs">
+      <DependentUpon>Form3DPath.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormBufferAnalyse.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,12 @@
     </Compile>
     <Compile Include="FormCreateDst.Designer.cs">
       <DependentUpon>FormCreateDst.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDeleteLayout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDeleteLayout.Designer.cs">
+      <DependentUpon>FormDeleteLayout.cs</DependentUpon>
     </Compile>
     <Compile Include="FormOverlayAnalyse.cs">
       <SubType>Form</SubType>
@@ -109,10 +121,19 @@
     <Compile Include="FormSQLWKS.Designer.cs">
       <DependentUpon>FormSQLWKS.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSaveLayoutAs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaveLayoutAs.Designer.cs">
+      <DependentUpon>frmSaveLayoutAs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3DPath.resx">
+      <DependentUpon>Form3DPath.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormChooseTrack.resx">
       <DependentUpon>FormChooseTrack.cs</DependentUpon>
@@ -128,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSQLWKS.resx">
       <DependentUpon>FormSQLWKS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSaveLayoutAs.resx">
+      <DependentUpon>frmSaveLayoutAs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -153,6 +177,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="AxSuper3DLib">
+      <Guid>{99AA4EEF-16DB-41B9-8A9E-CACCD93FBD5D}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="AxSuperGridViewLib">
       <Guid>{AB69DB6A-F6B5-4BCD-BF57-170D7A3F41F5}</Guid>
       <VersionMajor>5</VersionMajor>
@@ -199,6 +231,15 @@
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Super3DLib">
+      <Guid>{99AA4EEF-16DB-41B9-8A9E-CACCD93FBD5D}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>

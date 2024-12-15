@@ -33,3 +33,4 @@ D:\大学资料\24.10\smoclass\SMO20240930\SMO20240930\SMO20240904\obj\x86\Relea
 D:\大学资料\24.10\smoclass\SMO20240930\SMO20240930\SMO20240904\obj\x86\Release\AxInterop.SuperLayoutLib.dll
 D:\大学资料\24.10\smoclass\SMO20240930\SMO20240930\SMO20240904\bin\x86\Release\Interop.SuperLayoutLib.dll
 D:\大学资料\24.10\smoclass\SMO20240930\SMO20240930\SMO20240904\bin\x86\Release\AxInterop.SuperLayoutLib.dll
+D:\大学资料\24.10\smoclass\SMO20240930\SMO20240930\SMO20240904\obj\x86\Release\SMO20240904.frmSaveLayoutAs.resources

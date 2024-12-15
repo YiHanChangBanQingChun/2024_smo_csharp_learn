@@ -11,6 +11,10 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Runtime.InteropServices;
 using SuperWkspManagerLib;
+using SuperLayoutLib;
+using AxSuperLayoutLib;
+using AxSuperWkspManagerLib;
+using System.IO;
 
 namespace SMO20240904
 {
@@ -1413,72 +1417,12 @@ namespace SMO20240904
             SuperLegend1.Refresh();
         }
 
-        //private void menuLabelTheme_Click(object sender, EventArgs e)
-        //{
-        //    // 获取图层
-        //    soLayer objThemeLayer = SuperMap1.Layers[cboLayersInMap.Text];
-        //    if (objThemeLayer == null)
-        //    {
-        //        MessageBox.Show("请选择一个图层。");
-        //        return;
-        //    }
-
-        //    // 创建单值专题图对象
-        //    soThemeUnique objUnique = objThemeLayer.ThemeUnique;
-        //    if (objUnique == null)
-        //    {
-        //        MessageBox.Show("无法创建单值专题图对象。");
-        //        return;
-        //    }
-        //    soThemeLabel objLabel = objThemeLayer.ThemeLabel;
-        //    if (objLabel == null)
-        //    {
-        //        MessageBox.Show("无法创建标签专题图对象。");
-        //        return;
-        //    }
-
-        //    objLabel.OnTop = true;
-        //    objLabel.VisibleScaleMax = 0.0;
-        //    objLabel.VisibleScaleMin = 0.0;
-        //    objLabel.Valid = true;
-        //    objLabel.IsForeignValue = 1;
-        //    objLabel.Field = "Name";
-        //    objLabel.AutoAvoidOverlapped = true;
-        //    // 设置文本样式
-        //    soTextStyle objTextStyle = new soTextStyle();
-        //    objTextStyle.Color = (uint)ColorTranslator.ToOle(Color.White);
-        //    objTextStyle.FixedSize = false;
-        //    objTextStyle.FixedTextSize = 1000;
-        //    objLabel.TextStyle = objTextStyle;
-
-        //    // 设置单值专题图属性
-        //    objUnique.Caption = "单值专题图";
-        //    objUnique.Field = "Name"; // 确保字段名称正确
-        //    objUnique.MakeDefault();
-
-        //    // 设置单值专题图颜色
-        //    soColors objColorTheme = new soColors();
-        //    int themeCount = objUnique.ValueCount;
-        //    objColorTheme.MakeRandomColorset(themeCount);
-        //    for (int _ = 1; _ <= themeCount; _++)
-        //    {
-        //        objUnique.get_Style(_).BrushColor = (uint)objColorTheme[_];
-        //        //objLabel.TextStyle = objTextStyle;
-
-        //    }
-
-        //    // 刷新地图和图例
-        //    SuperMap1.Refresh();
-        //    SuperLegend1.Refresh();
-        //}
         private void menuLabelTheme_Click(object sender, EventArgs e)
         {
             // 获取图层
             soLayer objThemeLayer = SuperMap1.Layers[cboLayersInMap.Text];
-
             // 检查是否支持标签专题图
             soThemeLabel objLabel = objThemeLayer.ThemeLabel;
-
             // 配置标签专题图
             objLabel.Enable = true;
             objLabel.Field = "Name";  // 确保字段 "Name" 存在
@@ -1515,50 +1459,132 @@ namespace SMO20240904
 
         private void menuOutputBMP_Click(object sender, EventArgs e)
         {
-            //// 打开文件资源管理器选择输出位置和文件名
-            //SaveFileDialog saveFileDialog = new SaveFileDialog();
-            //saveFileDialog.Filter = "BMP 文件|*.bmp";
-            //saveFileDialog.Title = "选择输出 BMP 文件的位置";
-            //if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    string filePath = saveFileDialog.FileName;
-            //    int dpi = 400; // 输出 DPI 设置为 400
-            //    bool showProgress = true; // 显示进程条
+            // 打开文件资源管理器选择输出位置和文件名
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "BMP 文件|*.bmp";
+            saveFileDialog.Title = "选择输出文件的位置";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+                int dpi = 345; // 输出 DPI 设置为 345
+                bool showProgress = true; // 显示进程条
 
-            //    // 将 SuperMap1 的地图添加到 SuperLayout1 中
-            //    soLytElementMap mapElement = (soLytElementMap)SuperLayout1.Elements.AddNew(seLytElementType.sletMap);
-            //    mapElement.Map = SuperMap1;
+                // 获取整个地图的范围
+                soRect mapBounds = SuperMap1.ViewBounds;
 
-            //    // 调整地图元素的大小和位置
-            //    mapElement.Width = SuperLayout1.Page.PageWidth;
-            //    mapElement.Height = SuperLayout1.Page.PageHeight;
-            //    mapElement.Left = 0;
-            //    mapElement.Top = 0;
+                // 调用 OutputMapToBMP 方法输出 BMP 文件
+                bool result = SuperMap1.OutputMapToBMP(filePath, mapBounds, dpi, showProgress);
 
-            //    // 刷新布局
-            //    SuperLayout1.Refresh();
-
-            //    // 调用 OutputToBMP 方法输出 BMP 文件
-            //    bool result = SuperLayout1.OutputToBMP(filePath, dpi, showProgress);
-            //    if (result)
-            //    {
-            //        MessageBox.Show("BMP 文件导出成功！");
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("BMP 文件导出失败，请检查配置。");
-            //    }
-            //}
+                if (result)
+                {
+                    MessageBox.Show("文件导出成功！", "提示");
+                }
+                else
+                {
+                    MessageBox.Show("文件导出失败，请检查配置。", "错误");
+                }
+            }
         }
 
         private void menuOutputFile_Click(object sender, EventArgs e)
         {
+            // 打开文件资源管理器选择输出位置和文件名
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "BMP 文件|*.bmp|JPG 文件|*.jpg|GIF 文件|*.gif|WMF 文件|*.wmf|EMF 文件|*.emf|TIFF 文件|*.tiff|PNG 文件|*.png";
+            saveFileDialog.Title = "选择输出文件的位置";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+                seFileType fileType;
 
+                // 根据文件扩展名设置文件类型
+                switch (Path.GetExtension(filePath).ToLower())
+                {
+                    case ".bmp":
+                        fileType = seFileType.scfBMP;
+                        break;
+                    case ".jpg":
+                        fileType = seFileType.scfJPG;
+                        break;
+                    case ".gif":
+                        fileType = seFileType.scfGIF;
+                        break;
+                    case ".wmf":
+                        fileType = seFileType.scfWMF;
+                        break;
+                    case ".emf":
+                        fileType = seFileType.scfEMF;
+                        break;
+                    case ".png":
+                        fileType = seFileType.scfPNG;
+                        break;
+                    default:
+                        MessageBox.Show("不支持的文件格式", "错误");
+                        return;
+                }
+
+                // 调用 OutputMapToFile 方法输出文件
+                bool result = SuperMap1.OutputMapToFile(filePath, fileType, 100, true);
+
+                if (result)
+                {
+                    MessageBox.Show("文件导出成功！", "提示");
+                }
+                else
+                {
+                    MessageBox.Show("文件导出失败，请检查配置。", "错误");
+                }
+            }
         }
 
         private void menuSaveLayout_Click(object sender, EventArgs e)
         {
+            bool bSaved = this.SuperLayout1.SaveLayout();
+            if (bSaved)
+            {
+                MessageBox.Show("保存布局成功", "提示");
+                return;
+            }
+            else
+            {
+                MessageBox.Show("保存布局失败", "提示");
+                return;
+            }
+        }
 
+        private void menuSaveLayoutAs_Click(object sender, EventArgs e)
+        {
+            frmSaveLayoutAs frmSaveLayoutAs = new frmSaveLayoutAs(this);
+            frmSaveLayoutAs.ShowDialog();
+        }
+
+        public AxSuperLayout SuperLayoutControl
+        {
+            get { return this.SuperLayout1; }
+        }
+
+        public AxSuperWkspManager SuperWkspManagerControl
+        {
+            get { return this.SuperWkspManager1; }
+        }
+
+        private void SuperLayout1_SelectionChanged(object sender, EventArgs e)
+        {
+            soLytSelection objLytSelect = SuperLayout1.Selection;
+            if(true)
+            {}
+        }
+
+        private void menuDeleteLayout_Click(object sender, EventArgs e)
+        {
+            FormDeleteLayout frmDeleteLayout = new FormDeleteLayout(this);
+            frmDeleteLayout.ShowDialog();
+        }
+
+        private void menuSetFlyPath_Click(object sender, EventArgs e)
+        {
+            Form3DPath frmPath = new Form3DPath(this);
+            frmPath.Show();
         }
     }
 }
